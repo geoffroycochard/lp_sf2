@@ -58,6 +58,7 @@ Pour chacune de ses actions créer un tempate propre.
 ## Etendre un layout
 
 * Twig
+* Test
 * Assetics
 
 
