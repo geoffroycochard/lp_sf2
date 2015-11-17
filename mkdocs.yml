@@ -1,0 +1,7 @@
+site_name: LP Symfony2
+theme_dir: cinder
+pages:
+- Installation: index.md
+- Premier pas: first.md
+- TP CRM: crm.md
+- Aide: help.md
