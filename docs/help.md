@@ -31,7 +31,7 @@ Ce bundle va nous permettre de gérer tous les appels statics (CSS, JS, IMG).
 
 # Format de configuration
 
-Symfony2 support différents formats de configuration
+Symfony2 support différents formats de configuration (Controller, Entity)
 
 * yml
 * xml

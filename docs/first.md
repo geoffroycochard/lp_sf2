@@ -44,22 +44,99 @@ Il faut se rendre dans le répertoire `src/Lp/TestBundle` afin de voir que des f
 2. Autochargement dans le `AppKernel`
 3. Enregistrement de la définition de nos routes dans `src/Lp/TestBundle/Resources/config/routing.yml`
 
-# Exercice
+# Création d'un controller
 
-## Création d'un controller
-
-Dans un controller nommé `TestController`, il nous faut différentes actions :
+Dans un controller nommé `DemoController`, il nous faut différentes actions :
 
 1. `index` : qui permet d'afficher un texte statique
 2. `whatsMyName` : qui permet d'afficher une information en variable d'URL
 
-Pour chacune de ses actions créer un tempate propre.
+Pour chacune de ses actions créer un template propre.
 
-## Etendre un layout
+## Class Controller
+
+Une Class Controller permet de gérer différentes actions appelées par le routing.
+
+Lors de la génération du skeleton de notre bundle, nous avons un répertoire `Controller`. Si nous observons 
+le fichier de routing de notre application 'app/config/routing.yml', on constate que nous chargeons toutes les actions
+paramétrées dans les class se trouvant dans le dossier `Controller`
+
+    lp_test:
+        resource: "@LpTestBundle/Controller/"
+        type:     annotation
+        prefix:   /
+    
+    app:
+        resource: "@AppBundle/Controller/"
+        type:     annotation
+
+Donc il suffit de créer la Class ci-dessous dans un fichier nommé `DemoController.php`(nommage autoload PSR-4) :
+ 
+    <?php
+    
+    namespace Lp\TestBundle\Controller; # déclaration du namespace
+    
+    use Symfony\Bundle\FrameworkBundle\Controller\Controller; # import de la Class Controller (héritage)
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; # utiliser pour configuration en annotation
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template; # utiliser pour configuration en annotation
+    
+    class DemoController extends Controller
+    {
+    
+    }
+
+Et pour créer une action, il suffit d'écrire une méthode dans cette classe annotée
+
+    /**
+     * @Route("/index") # route
+     * @Template() # template partial appellé : LpTestBundle:Demo:index.html.twig
+     */
+    public function indexAction()
+    {
+        return array(   # retourne un tableau clé / valeur et les clés sont exposées dans le template
+                // ...
+            );    
+	}
+	
+## Gestion des paramètres en annotation
+     
+     /**
+      * @Route("/index/{param}") # route
+      * @Template() # template partial appellé : LpTestBundle:Demo:index.html.twig
+      */
+     public function indexAction($param)
+     {
+         return array(   # retourne un tableau clé / valeur et les clés sont exposées dans le template
+                 // ...
+             );    
+ 	}
+
+Afin d'indiquer la récupération d'un paramètre, il faut le définir dans le route.
+Il est passé en argument de la méthode.
+
+**On peut y intégrer l'objet Request**
+
+    use Symfony\Component\HttpFoundation\Request;
+    
+    public function indexAction($Request $request)
+    {
+        $page = $request->query->get('page', 1);
+    
+        // ...
+    }
+
+[+ informations](http://symfony.com/doc/current/book/controller.html)
+
+# Gestion du templating
 
 * Twig
 * Test
 * Assetics
+
+# Doctrine
+
+# Form
+
 
 
 
