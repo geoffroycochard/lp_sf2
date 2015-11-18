@@ -88,7 +88,7 @@ Donc il suffit de créer la Class ci-dessous dans un fichier nommé `DemoControl
 Et pour créer une action, il suffit d'écrire une méthode dans cette classe annotée
 
     /**
-     * @Route("/index") # route
+     * @Route("/index", name="_index") # route
      * @Template() # template partial appellé : LpTestBundle:Demo:index.html.twig
      */
     public function indexAction()
@@ -129,9 +129,35 @@ Il est passé en argument de la méthode.
 
 # Gestion du templating
 
-* Twig
-* Test
-* Assetics
+Le templating dans le framework Symfony est géré par défault avec Twig. 
+
+Que ce soit au niveau App ou Bundle, tous les templates se localisent dans `Resources/views`.
+
+Faire évoluer le layout en intégrant le [starter template bootstrap](https://getbootstrap.com/examples/starter-template/) en mappant 
+les zones dynamiques suivantes (block):
+
+* title - balise title
+* stylesheets - import des JS
+* body - corps balise body
+* javascripts - import des JS
+
+[+ informations](http://twig.sensiolabs.org/)
+
+## Lien 
+
+Dans le layout, mettre en place un menu avec les 2 actions définies dans la class DemoController
+
+Afin de récupérer l'url d'une action il suffit d'utiliser le helper twig spécialement fait pour Symfony2 `path()`, 
+qui prend comme premier argument le nom de la route et en second, un tableau `{}` qui représente les paramètres. 
+
+    <a href="{{ path('_index') }}">Go to index</a>
+
+[+ informations](http://symfony.com/doc/current/book/templating.html#linking-to-pages)
+
+## Assetic
+
+http://symfony.com/doc/current/cookbook/assetic/asset_management.html
+
 
 # Doctrine
 
