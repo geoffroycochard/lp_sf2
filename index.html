@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">   
+    <link rel="shortcut icon" href="./img/favicon.ico">
+
+    <title>LP Symfony2</title>
+
+    <link href="./css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.015/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/cinder.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/highlight.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body class="homepage" >
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href=".">LP Symfony2</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li class="active">
+                        <a href=".">Installation</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="first/">Premier pas</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="crm/">TP CRM</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="help/">Aide</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li class="disabled">
+                        <a rel="next" >
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="first/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#introduction">Introduction</a></li>
+        
+            <li><a href="#methodes-dinstallation">Méthodes d'installation</a></li>
+        
+            <li><a href="#symfony-installer">Symfony Installer</a></li>
+        
+            <li><a href="#help">Help</a></li>
+        
+    
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="introduction">Introduction</h1>
+<p>Ces premiers TD vont nous permettre d'appréhender le <a href="https://symfony.com/">Framework PHP Symfony 2</a>.</p>
+<p>Un framework est un cadre de travail de développement basé sur un certain de nombre <a href="https://symfony.com/components">composant</a></p>
+<h2 id="methodes-dinstallation">Méthodes d'installation</h2>
+<p>Plusieurs méthodes peuvent être utiliser afin d'initialiser un projet basé sur Symfony full-stack - <a href="https://symfony.com/distributions">Voir les différentes distributions</a></p>
+<ul>
+<li><code>Synfony Installer</code> - recommandé</li>
+<li><code>Composer</code> </li>
+<li><code>ZIP Package</code></li>
+</ul>
+<h2 id="symfony-installer">Symfony Installer</h2>
+<p>Nous allons récupérer un executable qui va automatiser un certain nombres de tâches afin d'instancier un projet
+Symfony2.</p>
+<p>Cet installer, nous allons le mettre dans notre <code>~/bin</code></p>
+<pre><code>$ curl -LsS http://symfony.com/installer -o ~/bin/symfony
+</code></pre>
+
+<pre><code>$ chmod a+x ~/bin/symfony
+</code></pre>
+
+<p><em>Cet exécutable accepte différents arguments :</em></p>
+<ol>
+<li>Commande à éxécuter (<code>new</code>, <code>self-update</code>)</li>
+<li>Le nom du projet avec la commande <code>new</code></li>
+<li>Version de Symfony désiré (<code>2.6.5</code>, <code>2.7.0-RC1</code>, <code>lts</code>)</li>
+</ol>
+<p><strong>Du coup, afin d'instancier un projet</strong></p>
+<pre><code>$ symfony new new_project
+</code></pre>
+
+<h3 id="que-fait-il">Que fait-il ?</h3>
+<p>Cet <a href="https://github.com/symfony/symfony-installer">utilitaire</a> nous permet d'automatiser plusieurs tâches. </p>
+<ul>
+<li>Vérifie les permissions</li>
+<li>Téléchargement du paquet</li>
+<li>Extrait le paquet</li>
+<li>Met à jour les paramètres - <code>app/config/parameter.yml</code></li>
+<li>Met à jour les composer.json</li>
+<li>Créer un fichier <code>.gitignore</code></li>
+<li>Vérifie les prérequis</li>
+</ul>
+<p><img alt="Screenshot" src="./img/installer.gif" /></p>
+<h3 id="quobtient-on">Qu'obtient-on ?</h3>
+<pre><code>app/                            # Répertoire des fichiers de application globale
+    cache                       # Répertoire d'écriture du cache
+    config                      # Répertoire de configuration de application globale
+        configdev.yml           # Configuration environnement dev
+        configprod.yml          # Configuration environnement prod
+        configtest.yml          # Configuration environnement test
+        config.yml              # Configuration environnement global
+        parameters.yml          # Paramètre application
+        parameters.yml.dist     # Template d'un fichier de paramétrage
+        routingdev.yml          # Configuration routing dev
+        routing.yml             # Configuration routing
+        security.yml            # Configuration de la sécurité
+        services.yml            # Configuration des services
+    logs                        # Dossier des logs
+    Resources                   # Ressources application globale (static + templates)
+    AppCache.php                # Paramétrage du cache
+    AppKernel.php               # Kernel loading
+    autoload.php                # 
+    bootstrap.php.cache
+    check.php
+    console                     # console pour les CLI
+    phpunit.xml.dist
+    SymfonyRequirements.php
+bin/                            # exécutable tierce partie
+src/
+    AppBundle/                  # Bundle métier 
+vendor/                         # Vendor distribution full-stack
+    composer
+    doctrine
+    incenteev
+    jdorn
+    kriswallsmith
+    monolog
+    psr
+    sensio
+    sensiolabs
+    swiftmailer
+    symfony
+    twig
+    autoload.php
+web/                            # Répertoire accessible du web
+    app_dev.php                 # Controller principal de l'application en mode dev
+    app.php                     # Controller principal de l'application en mode prod
+    apple-touch-icon.png
+    bundles
+    config.php
+    favicon.ico
+    robots.txt
+composer.json
+composer.lock
+README.md
+</code></pre>
+<p><strong>Lancer l'application</strong></p>
+<p>En mode développement, Symfony2 peut se lancer en s'appuyant sur le <a href="http://php.net/manual/en/features.commandline.webserver.php">built-in Web Server de php</a> grâce à la commande :</p>
+<pre><code>$ app/console server:run
+</code></pre>
+
+<p><a href="http://symfony.com/doc/current/book/installation.html#running-the-symfony-application">+ informations</a></p>
+<p>Vérifier le bon fonctionnement de l'installation en accédant via votre navigateur à l'URL <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> indiqué par le built-in Web Server de PHP </p>
+<p><img alt="image" src="./img/welcome.png" /></p>
+<h2 id="help">Help</h2>
+<p><strong>Rendre le <code>~/bin</code> global</strong></p>
+<p>Il faut modifier notre .bashrc </p>
+<pre><code>$ vi ~/.bashrc
+</code></pre>
+
+<p>Et eporter $PATH en y ajoutant notre <code>~/bin</code></p>
+<pre><code>export PATH=$PATH:~/bin
+</code></pre>
+
+<p>Ne pas oublier de recharger <code>.bashrc</code> </p>
+<pre><code>$ source ~/.bashrc
+</code></pre></div>
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+    </footer>
+
+    <script src="./js/jquery-1.10.2.min.js"></script>
+    <script src="./js/bootstrap-3.0.3.min.js"></script>
+    <script src="./js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '.';
+    </script>
+    <script data-main="./mkdocs/js/search.js" src="./mkdocs/js/require.js"></script>
+    <script src="./js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>
+
+<!--
+MkDocs version : 0.14.0
+Build Date UTC : 2015-11-19 12:54:25.184759
+-->
