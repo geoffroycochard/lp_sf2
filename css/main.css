@@ -1,0 +1,10 @@
+img {
+    width: 100%;
+}
+a.go-to-sf-doc span {
+    background-image: url("../img/sf_logo_doc.png");
+    padding-left: 40px;
+    background-size: 15%;
+    background-repeat: no-repeat;
+    background-position: center left;
+}

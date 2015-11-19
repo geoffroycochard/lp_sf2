@@ -18,6 +18,9 @@
     <link href="../css/cinder.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/highlight.css">
 
+
+    <link href="../css/main.css" rel="stylesheet">
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -138,11 +141,13 @@
         
             <li><a href="#gestion-dun-layout">Gestion d'un layout</a></li>
         
-            <li><a href="#exercice">Exercice</a></li>
+            <li><a href="#par-exemple">Par exemple</a></li>
+        
+            <li><a href="#creer-son-layout">Créer son layout</a></li>
         
             <li><a href="#lien">Lien</a></li>
         
-            <li><a href="#assetic">Assetic</a></li>
+            <li><a href="#web-assets">Web Assets</a></li>
         
     
         <li class="main "><a href="#doctrine">Doctrine</a></li>
@@ -233,7 +238,7 @@ class DemoController extends Controller
 
 }
 </code></pre>
-<p>Et pour créer une action, il suffit d'écrire une méthode dans cette classe annotée</p>
+<p>Et pour créer une action, il suffit d'écrire une méthode annotée dans cette classe </p>
 <pre><code>/**
  * @Route("/index", name="_index") # route
  * @Template() # template partial appellé : LpTestBundle:Demo:index.html.twig
@@ -244,6 +249,9 @@ public function indexAction()
             // ...
         );    
 }
+</code></pre>
+<p>Il existe une commande afin de générer un controller :</p>
+<pre><code>$ app/console generate:controller
 </code></pre>
 <h2 id="gestion-des-parametres-en-annotation">Gestion des paramètres en annotation</h2>
 <pre><code> /**
@@ -277,34 +285,94 @@ public function indexAction($Request $request)
 <p>A partir d'un controller afin d'éxécuter le rendu de l'action on fait appel à un template. Il est localisé en faisant 
 appel à la méthode <code>render()</code> de la class <code>Symfony\Bundle\FrameworkBundle\Controller\Controller</code> dans laquelle est 
 injecté le service <code>twig</code> à qui appartient cette fonction et renvoie un object <code>Response</code>.</p>
+<p><strong>En PHP</strong></p>
 <pre><code>// renders app/Resources/views/hello/greetings/index.html.twig
 return $this-&gt;render('hello/greetings/index.html.twig', array(
     'name' =&gt; $name
 ));
 </code></pre>
+<p><strong>En Annotation</strong></p>
+<pre><code> /**
+  * @Template("LpTestBundle:Demo:another.html.twig")
+  */
+</code></pre>
 <h2 id="gestion-dun-layout">Gestion d'un layout</h2>
 <p>Par défault, la création du projet génère un template <code>app/Ressources/views/base.html.twig</code> (block mappés) et celui-ci 
 peut-être étendu grâce à la fonction twig <code>{% extends ::base.html.twig %}</code></p>
-<p>On peut aussi stocké </p>
-<p><a href="http://twig.sensiolabs.org/"><span class="btn btn-info">+ informations</span></a></p>
-<h2 id="exercice">Exercice</h2>
+<p>On peut aussi stocké un layout dans nos Bundles. Afin de le localiser il faut utiliser le ShortName du Bundle 
+<code>LpTestBundle:layout.html.twig</code> faisant référence au fichier se trouvant dans 
+<code>src/Lp/TestBundle/Ressources/views/layout.html.twig</code> </p>
+<h2 id="par-exemple">Par exemple</h2>
+<p>Nous avons via la définition de notre routing attaqué le controller <code>LpTestBundle:DemoController:indexAction</code> qui par 
+défault le rendu va être compilé dans le template <code>LpTestBundle:Demo:index.html.twig</code> qui est localisé dans 
+<code>src/Lp/TestBundle/Resources/views/Demo/index.html.twig</code>. Dans ce template partial on fait appel à un layout que nous avons 
+crééer dans notre Bundle <code>src/Lp/TestBundle/Resources/views/layout.html.twig</code>.</p>
+<pre><code># src/Lp/TestBundle/Resources/views/index.html.twig
+{% extends "LpTestBundle:layout.html.twig" %}
+
+{% block title %}LpTestBundle:Demo:index{% endblock %}
+
+{% block body %}
+    &lt;h1&gt;Welcome to the Demo:index page&lt;/h1&gt;
+{% endblock %}
+</code></pre>
+<p><a href="http://symfony.com/doc/current/book/templating.html"><span class="btn btn-info">+ informations</span></a></p>
+<h2 id="creer-son-layout">Créer son layout</h2>
 <p>Faire évoluer le layout en intégrant le <a href="https://getbootstrap.com/examples/starter-template/">starter template bootstrap</a> en mappant 
 les zones dynamiques suivantes (block):</p>
 <ul>
-<li>title - balise title</li>
-<li>stylesheets - import des JS</li>
-<li>body - corps balise body</li>
-<li>javascripts - import des JS</li>
+<li><code>{% block title %}</code> - balise title</li>
+<li><code>{% block stylesheets %}</code> - import des JS</li>
+<li><code>{% block body %}</code> - corps balise body</li>
+<li><code>{% block javascripts %}</code> - import des JS</li>
 </ul>
+<p><strong>Faire appel via un CDN, les librairies externes (CSS/JS)</strong></p>
+<pre><code>&lt;!-- Latest compiled and minified CSS --&gt;
+&lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous"&gt;
+
+&lt;!-- Optional theme --&gt;
+&lt;link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous"&gt;
+
+&lt;!-- Latest compiled and minified JavaScript --&gt;
+&lt;script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"&gt;&lt;/script&gt;
+</code></pre>
+<p class="text-primary">Bien-sûr une fois correctement mappé, faire appel à ce layout dans le rendu des deux actions définies</p>
+
 <h2 id="lien">Lien</h2>
 <p>Dans le layout, mettre en place un menu avec les 2 actions définies dans la class DemoController</p>
 <p>Afin de récupérer l'url d'une action il suffit d'utiliser le helper twig spécialement fait pour Symfony2 <code>path()</code>, 
 qui prend comme premier argument le nom de la route et en second, un tableau <code>{}</code> qui représente les paramètres. </p>
 <pre><code>&lt;a href="{{ path('_index') }}"&gt;Go to index&lt;/a&gt;
 </code></pre>
+<p><strong>En annotation, on définit le nom d'une route comme ci-dessous</strong></p>
+<pre><code>/**
+ * @Route("/index", name="_index")
+ * @Template()
+ */
+</code></pre>
 <p><a href="http://symfony.com/doc/current/book/templating.html#linking-to-pages"><span class="btn btn-info">+ informations</span></a></p>
-<h2 id="assetic">Assetic</h2>
-<p>http://symfony.com/doc/current/cookbook/assetic/asset_management.html</p>
+<h2 id="web-assets">Web Assets</h2>
+<p>L'organisation des fichiers dans un projet symfony2 impose que seul le répertoire <code>web</code> est accessible du Web.
+Nos fichiers static doivent y être donc stockés afin de les servir au client.</p>
+<p>Ces assets, dépendants de nos bundles, doivent être stockés dans <code>src/Lp/TestBunble/Resources/public</code>. Afin de les 
+rendre accessible, il faut les publier </p>
+<pre><code>$ app/console assets:install --symlink
+</code></pre>
+
+<p>L'option <code>-symlink</code> permet de faire un lien symbolique.</p>
+<p>Passer les assets appelés dans le layout en CDN par le bundle <code>LpTestBundle</code> en local.</p>
+<p><strong>Par exemple</strong></p>
+<pre><code>&lt;link rel="stylesheet" href="{{ asset('css/main.css') }}" /&gt; # Stocké dans app/Resources/public/css/main.css
+&lt;link rel="stylesheet" href="{{ asset('bundle/lptest/css/main.css') }}" /&gt; # Stocké dans src/Lp/TestBundle/Resources/Public/css/main.css
+</code></pre>
+<h3 id="assetic">Assetic</h3>
+<p>Assetic se basant sur Asset est un Bundle Symfony Framework afin de gérer les fichiers static en les filtrants, comme :</p>
+<ul>
+<li>Compilé LESS / SAAS / CoffeeScript</li>
+<li>Minifiier / Combiné</li>
+<li>Optimisation d'images</li>
+</ul>
+<p><a href="http://symfony.com/doc/current/cookbook/assetic/asset_management.html"><span class="btn btn-info">+ informations</span></a></p>
 <h1 id="doctrine">Doctrine</h1>
 <h1 id="form">Form</h1></div>
         
@@ -325,6 +393,7 @@ qui prend comme premier argument le nom de la route et en second, un tableau <co
     </script>
     <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
     <script src="../js/base.js"></script>
+    <script src="../js/main.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
         <div class="modal-dialog">
