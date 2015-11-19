@@ -1,5 +1,7 @@
 site_name: LP Symfony2
 theme_dir: cinder
+extra_css:
+  - "css/main.css"
 pages:
 - Installation: index.md
 - Premier pas: first.md
