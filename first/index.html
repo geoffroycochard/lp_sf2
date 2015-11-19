@@ -134,6 +134,12 @@
     
         <li class="main "><a href="#gestion-du-templating">Gestion du templating</a></li>
         
+            <li><a href="#localise-un-template-partial">Localisé un template partial</a></li>
+        
+            <li><a href="#gestion-dun-layout">Gestion d'un layout</a></li>
+        
+            <li><a href="#exercice">Exercice</a></li>
+        
             <li><a href="#lien">Lien</a></li>
         
             <li><a href="#assetic">Assetic</a></li>
@@ -263,10 +269,25 @@ public function indexAction($Request $request)
     // ...
 }
 </code></pre>
-<p><a href="http://symfony.com/doc/current/book/controller.html">+ informations</a></p>
+<p><a href="http://symfony.com/doc/current/book/controller.html"><span class="btn btn-info">+ informations</span></a></p>
 <h1 id="gestion-du-templating">Gestion du templating</h1>
 <p>Le templating dans le framework Symfony est géré par défault avec Twig. </p>
 <p>Que ce soit au niveau App ou Bundle, tous les templates se localisent dans <code>Resources/views</code>.</p>
+<h2 id="localise-un-template-partial">Localisé un template partial</h2>
+<p>A partir d'un controller afin d'éxécuter le rendu de l'action on fait appel à un template. Il est localisé en faisant 
+appel à la méthode <code>render()</code> de la class <code>Symfony\Bundle\FrameworkBundle\Controller\Controller</code> dans laquelle est 
+injecté le service <code>twig</code> à qui appartient cette fonction et renvoie un object <code>Response</code>.</p>
+<pre><code>// renders app/Resources/views/hello/greetings/index.html.twig
+return $this-&gt;render('hello/greetings/index.html.twig', array(
+    'name' =&gt; $name
+));
+</code></pre>
+<h2 id="gestion-dun-layout">Gestion d'un layout</h2>
+<p>Par défault, la création du projet génère un template <code>app/Ressources/views/base.html.twig</code> (block mappés) et celui-ci 
+peut-être étendu grâce à la fonction twig <code>{% extends ::base.html.twig %}</code></p>
+<p>On peut aussi stocké </p>
+<p><a href="http://twig.sensiolabs.org/"><span class="btn btn-info">+ informations</span></a></p>
+<h2 id="exercice">Exercice</h2>
 <p>Faire évoluer le layout en intégrant le <a href="https://getbootstrap.com/examples/starter-template/">starter template bootstrap</a> en mappant 
 les zones dynamiques suivantes (block):</p>
 <ul>
@@ -275,14 +296,13 @@ les zones dynamiques suivantes (block):</p>
 <li>body - corps balise body</li>
 <li>javascripts - import des JS</li>
 </ul>
-<p><a href="http://twig.sensiolabs.org/">+ informations</a></p>
 <h2 id="lien">Lien</h2>
 <p>Dans le layout, mettre en place un menu avec les 2 actions définies dans la class DemoController</p>
 <p>Afin de récupérer l'url d'une action il suffit d'utiliser le helper twig spécialement fait pour Symfony2 <code>path()</code>, 
 qui prend comme premier argument le nom de la route et en second, un tableau <code>{}</code> qui représente les paramètres. </p>
 <pre><code>&lt;a href="{{ path('_index') }}"&gt;Go to index&lt;/a&gt;
 </code></pre>
-<p><a href="http://symfony.com/doc/current/book/templating.html#linking-to-pages">+ informations</a></p>
+<p><a href="http://symfony.com/doc/current/book/templating.html#linking-to-pages"><span class="btn btn-info">+ informations</span></a></p>
 <h2 id="assetic">Assetic</h2>
 <p>http://symfony.com/doc/current/cookbook/assetic/asset_management.html</p>
 <h1 id="doctrine">Doctrine</h1>
