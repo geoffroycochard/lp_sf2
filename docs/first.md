@@ -256,10 +256,70 @@ Assetic se basant sur Asset est un Bundle Symfony Framework afin de gérer les f
 
 [<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/cookbook/assetic/asset_management.html)
 
+# Tests fonctionnels
+
+Symfony intègre un librairie de test unitaire [PHPUnit](https://phpunit.de/manual/current/en/).
+
+## Installation
+
+    $ wget https://phar.phpunit.de/phpunit.phar # version 5.0 si php > 5.6 sinon phpunit-4.8.9.phar
+    $ chmod +x phpunit.phar
+    $ sudo mv phpunit.phar ~/bin/phpunit
+    $ phpunit --version
+
+Les Tests fonctionnels sont là afin tester les différentes couche de votre application du routing jusqu'à la vue :
+
+* Faire un requête
+* Tester la réponse
+
+Pour cela, nous allons écrire des classes afin de simuler des actions / calculs et nous tracer / tester ([assertX)](https://phpunit.de/manual/4.8/en/appendixes.assertions.html)) les 
+résultats afin de faire remonter d'éventuelles erreurs.
+
+## Ecrire un test
+
+Lançons le test `DemoController` :
+
+    phpunit -c app src/Lp/TestBundle/Tests/Controller/DemoControllerTest.php 
+    
+*`-c app` est une option de configuration afin d'aller checher les class de test (fichier / dossier)*
+
+Avec la class `DemoControllerTest` :
+
+    <?php
+    
+    namespace Lp\TestBundle\Tests\Controller;
+    
+    use Symfony\Bundle\FrameworkBundle\Test\WebTestCase; # class étendue PHPUnit_Framework_TestCase
+    
+    class DemoControllerTest extends WebTestCase
+    {
+        public function testIndex()
+        {
+            $client = static::createClient();
+    
+            $crawler = $client->request('GET', '/index');
+        }
+    
+        public function testWhatsmyname()
+        {
+            $client = static::createClient();
+    
+            $crawler = $client->request('GET', '/whats-my-name/geoffroy');
+            
+            $this->assertTrue(200 === $client->getResponse()->getStatusCode()); # second argument peut-être un message
+        }
+    
+    }
+    
+***Pour faire une démonstration, changer le routing de l'une des actions testées.***
+    
+[<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/book/testing.html)
 
 # Doctrine
 
 # Form
+
+Faire un test du formulaire
 
 
 
