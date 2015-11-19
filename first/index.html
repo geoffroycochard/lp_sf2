@@ -150,6 +150,13 @@
             <li><a href="#web-assets">Web Assets</a></li>
         
     
+        <li class="main "><a href="#tests-fonctionnels">Tests fonctionnels</a></li>
+        
+            <li><a href="#installation">Installation</a></li>
+        
+            <li><a href="#ecrire-un-test">Ecrire un test</a></li>
+        
+    
         <li class="main "><a href="#doctrine">Doctrine</a></li>
         
     
@@ -373,8 +380,58 @@ rendre accessible, il faut les publier </p>
 <li>Optimisation d'images</li>
 </ul>
 <p><a href="http://symfony.com/doc/current/cookbook/assetic/asset_management.html"><span class="btn btn-info">+ informations</span></a></p>
+<h1 id="tests-fonctionnels">Tests fonctionnels</h1>
+<p>Symfony intègre un librairie de test unitaire <a href="https://phpunit.de/manual/current/en/">PHPUnit</a>.</p>
+<h2 id="installation">Installation</h2>
+<pre><code>$ wget https://phar.phpunit.de/phpunit.phar # version 5.0 si php &gt; 5.6 sinon phpunit-4.8.9.phar
+$ chmod +x phpunit.phar
+$ sudo mv phpunit.phar ~/bin/phpunit
+$ phpunit --version
+</code></pre>
+<p>Les Tests fonctionnels sont là afin tester les différentes couche de votre application du routing jusqu'à la vue :</p>
+<ul>
+<li>Faire un requête</li>
+<li>Tester la réponse</li>
+</ul>
+<p>Pour cela, nous allons écrire des classes afin de simuler des actions / calculs et nous tracer / tester (<a href="https://phpunit.de/manual/4.8/en/appendixes.assertions.html">assertX)</a>) les 
+résultats afin de faire remonter d'éventuelles erreurs.</p>
+<h2 id="ecrire-un-test">Ecrire un test</h2>
+<p>Lançons le test <code>DemoController</code> :</p>
+<pre><code>phpunit -c app src/Lp/TestBundle/Tests/Controller/DemoControllerTest.php
+</code></pre>
+<p><em><code>-c app</code> est une option de configuration afin d'aller checher les class de test (fichier / dossier)</em></p>
+<p>Avec la class <code>DemoControllerTest</code> :</p>
+<pre><code>&lt;?php
+
+namespace Lp\TestBundle\Tests\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase; # class étendue PHPUnit_Framework_TestCase
+
+class DemoControllerTest extends WebTestCase
+{
+    public function testIndex()
+    {
+        $client = static::createClient();
+
+        $crawler = $client-&gt;request('GET', '/index');
+    }
+
+    public function testWhatsmyname()
+    {
+        $client = static::createClient();
+
+        $crawler = $client-&gt;request('GET', '/whats-my-name/geoffroy');
+
+        $this-&gt;assertTrue(200 === $client-&gt;getResponse()-&gt;getStatusCode()); # second argument peut-être un message
+    }
+
+}
+</code></pre>
+<p><strong><em>Pour faire une démonstration, changer le routing de l'une des actions testées.</em></strong></p>
+<p><a href="http://symfony.com/doc/current/book/testing.html"><span class="btn btn-info">+ informations</span></a></p>
 <h1 id="doctrine">Doctrine</h1>
-<h1 id="form">Form</h1></div>
+<h1 id="form">Form</h1>
+<p>Faire un test du formulaire</p></div>
         
     </div>
 
