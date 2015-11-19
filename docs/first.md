@@ -122,7 +122,7 @@ Il est passé en argument de la méthode.
 
     use Symfony\Component\HttpFoundation\Request;
     
-    public function indexAction($Request $request)
+    public function indexAction(Request $request)
     {
         $page = $request->query->get('page', 1);
     
