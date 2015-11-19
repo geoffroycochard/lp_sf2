@@ -54,10 +54,57 @@ Cet [utilitaire](https://github.com/symfony/symfony-installer) nous permet d'aut
 
 ### Qu'obtient-on ?
 
-	app/							# Répertoire des fichiers de application globale		cache						# Répertoire d'écriture du cache		config						# Répertoire de configuration de application globale			configdev.yml			# Configuration environnement dev			configprod.yml			# Configuration environnement prod			configtest.yml			# Configuration environnement test			config.yml				# Configuration environnement global			parameters.yml			# Paramètre application			parameters.yml.dist		# Template d'un fichier de paramétrage			routingdev.yml			# Configuration routing dev			routing.yml				# Configuration routing			security.yml			# Configuration de la sécurité			services.yml			# Configuration des services		logs						# Dossier des logs		Resources					# Ressources application globale (static + templates)
-		AppCache.php				# Paramétrage du cache		AppKernel.php				# Kernel loading		autoload.php				# 		bootstrap.php.cache		check.php		console						# console pour les CLI		phpunit.xml.dist		SymfonyRequirements.php	bin/							# exécutable tierce partie	src/
-		AppBundle/					# Bundle métier 	vendor/							# Vendor distribution full-stack		composer		doctrine		incenteev		jdorn		kriswallsmith		monolog		psr		sensio		sensiolabs		swiftmailer		symfony		twig
-		autoload.php	web/							# Répertoire accessible du web		app_dev.php					# Controller principal de l'application en mode dev		app.php						# Controller principal de l'application en mode prod		apple-touch-icon.png		bundles		config.php		favicon.ico		robots.txt	composer.json	composer.lock	README.md
+	app/							# Répertoire des fichiers de application globale
+		cache						# Répertoire d'écriture du cache
+		config						# Répertoire de configuration de application globale
+			configdev.yml			# Configuration environnement dev
+			configprod.yml			# Configuration environnement prod
+			configtest.yml			# Configuration environnement test
+			config.yml				# Configuration environnement global
+			parameters.yml			# Paramètre application
+			parameters.yml.dist		# Template d'un fichier de paramétrage
+			routingdev.yml			# Configuration routing dev
+			routing.yml				# Configuration routing
+			security.yml			# Configuration de la sécurité
+			services.yml			# Configuration des services
+		logs						# Dossier des logs
+		Resources					# Ressources application globale (static + templates)
+		AppCache.php				# Paramétrage du cache
+		AppKernel.php				# Kernel loading
+		autoload.php				# 
+		bootstrap.php.cache
+		check.php
+		console						# console pour les CLI
+		phpunit.xml.dist
+		SymfonyRequirements.php
+	bin/							# exécutable tierce partie
+	src/
+		AppBundle/					# Bundle métier 
+	vendor/							# Vendor distribution full-stack
+		composer
+		doctrine
+		incenteev
+		jdorn
+		kriswallsmith
+		monolog
+		psr
+		sensio
+		sensiolabs
+		swiftmailer
+		symfony
+		twig
+		autoload.php
+	web/							# Répertoire accessible du web
+		app_dev.php					# Controller principal de l'application en mode dev
+		app.php						# Controller principal de l'application en mode prod
+		apple-touch-icon.png
+		bundles
+		config.php
+		favicon.ico
+		robots.txt
+	composer.json
+	composer.lock
+	README.md
 
 **Lancer l'application**
 
@@ -66,7 +113,7 @@ En mode développement, Symfony2 peut se lancer en s'appuyant sur le [built-in W
 ```
 $ app/console server:run
 ```
-[+ informations](http://symfony.com/doc/current/book/installation.html#running-the-symfony-application)
+[<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/book/installation.html#running-the-symfony-application)
 
 Vérifier le bon fonctionnement de l'installation en accédant via votre navigateur à l'URL [http://127.0.0.1:8000](http://127.0.0.1:8000) indiqué par le built-in Web Server de PHP 
 

@@ -21,13 +21,13 @@ Avoir de l'aide sur une command :
 ```
 $ app/console generate:bundle --help
 ```
-[+ informations](http://symfony.com/doc/current/components/console/introduction.html)
+[<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/components/console/introduction.html)
 
 # Assetic
 
 Ce bundle va nous permettre de gérer tous les appels statics (CSS, JS, IMG).
 
-[+ informations](https://symfony.com/doc/current/cookbook/assetic/asset_management.html)
+[<span class="btn btn-info">+ informations</span>](https://symfony.com/doc/current/cookbook/assetic/asset_management.html)
 
 # Format de configuration
 

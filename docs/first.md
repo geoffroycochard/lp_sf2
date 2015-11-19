@@ -125,13 +125,35 @@ Il est passé en argument de la méthode.
         // ...
     }
 
-[+ informations](http://symfony.com/doc/current/book/controller.html)
+[<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/book/controller.html)
 
 # Gestion du templating
 
 Le templating dans le framework Symfony est géré par défault avec Twig. 
 
 Que ce soit au niveau App ou Bundle, tous les templates se localisent dans `Resources/views`.
+
+## Localisé un template partial
+
+A partir d'un controller afin d'éxécuter le rendu de l'action on fait appel à un template. Il est localisé en faisant 
+appel à la méthode `render()` de la class `Symfony\Bundle\FrameworkBundle\Controller\Controller` dans laquelle est 
+injecté le service `twig` à qui appartient cette fonction et renvoie un object `Response`.
+
+    // renders app/Resources/views/hello/greetings/index.html.twig
+    return $this->render('hello/greetings/index.html.twig', array(
+        'name' => $name
+    ));
+
+## Gestion d'un layout
+
+Par défault, la création du projet génère un template `app/Ressources/views/base.html.twig` (block mappés) et celui-ci 
+peut-être étendu grâce à la fonction twig `{% extends ::base.html.twig %}`
+
+On peut aussi stocké 
+
+[<span class="btn btn-info">+ informations</span>](http://twig.sensiolabs.org/)
+
+## Exercice
 
 Faire évoluer le layout en intégrant le [starter template bootstrap](https://getbootstrap.com/examples/starter-template/) en mappant 
 les zones dynamiques suivantes (block):
@@ -140,8 +162,6 @@ les zones dynamiques suivantes (block):
 * stylesheets - import des JS
 * body - corps balise body
 * javascripts - import des JS
-
-[+ informations](http://twig.sensiolabs.org/)
 
 ## Lien 
 
@@ -152,7 +172,7 @@ qui prend comme premier argument le nom de la route et en second, un tableau `{}
 
     <a href="{{ path('_index') }}">Go to index</a>
 
-[+ informations](http://symfony.com/doc/current/book/templating.html#linking-to-pages)
+[<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/book/templating.html#linking-to-pages)
 
 ## Assetic
 
