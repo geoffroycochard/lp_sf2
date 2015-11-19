@@ -277,7 +277,7 @@ Il est passé en argument de la méthode.</p>
 <p><strong>On peut y intégrer l'objet Request</strong></p>
 <pre><code>use Symfony\Component\HttpFoundation\Request;
 
-public function indexAction($Request $request)
+public function indexAction(Request $request)
 {
     $page = $request-&gt;query-&gt;get('page', 1);
 
