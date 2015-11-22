@@ -197,6 +197,9 @@ Symfony2.</p>
 <li>CSS / Assets</li>
 </ol>
 </li>
+<li>Tests fonctionnels</li>
+<li>Doctrine / Entity</li>
+<li>Formulaire</li>
 </ol>
 <h1 id="creation-du-bundle">Création du bundle</h1>
 <p>Pour cela nous allons utliser une ligne de commande qui va nous permettre de générer un skeleton de Bundle.</p>
@@ -517,7 +520,7 @@ class Page
 </code></pre>
 <p>Afin d'accéder à ces propriétés défniies il nous faut des setter et des getters qud l'on peut générer grâce à une ligne 
 de commande :</p>
-<pre><code>$ app/console doctrine:generate:entities AppBundle/Entity/Product
+<pre><code>$ app/console doctrine:generate:entities Lp/testBundleEntity/Page
 </code></pre>
 
 <pre><code>    /**
@@ -702,7 +705,7 @@ public function createAction()
         );
     }
 
-    $product-&gt;setContent('New content!'); # mise à jour de la propriété
+    $page-&gt;setContent('New content!'); # mise à jour de la propriété
     $em-&gt;flush();
 
     return $this-&gt;redirectToRoute('homepage');
@@ -729,7 +732,7 @@ $query = $repository-&gt;createQueryBuilder('p')
     -&gt;orderBy('p.id', 'DESC')
     -&gt;getQuery();
 
-$products = $query-&gt;getResult();
+$page = $query-&gt;getResult();
 </code></pre>
 <hr />
 <h2 id="excercice">Excercice</h2>
