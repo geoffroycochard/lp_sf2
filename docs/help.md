@@ -21,13 +21,14 @@ Avoir de l'aide sur une command :
 ```
 $ app/console generate:bundle --help
 ```
+
 [<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/components/console/introduction.html)
 
 # Assetic
 
 Ce bundle va nous permettre de gérer tous les appels statics (CSS, JS, IMG).
 
-[<span class="btn btn-info">+ informations</span>](https://symfony.com/doc/current/cookbook/assetic/asset_management.html)
+[<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/cookbook/assetic/asset_management.html)
 
 # Format de configuration
 
@@ -37,6 +38,14 @@ Symfony2 support différents formats de configuration (Controller, Entity)
 * xml
 * annotation 
 * php
+
+# Doctrine 
+
+Cette librairie intégré dans la version full-stack de Symfony2 est ORM (Object Relationship Management). Un ORM permet 
+de travailler dans le monde Object de PHP avec une Base de donnée. Concrètement, une table en base de donnée sera 
+matérialisé par Doctrine par un Objet mappé que l'on appelle entité.
+
+[<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/book/doctrine.html)
 
 # FormBuilder
 

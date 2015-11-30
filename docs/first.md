@@ -12,6 +12,9 @@ Process :
 5. Templating d'un layout
     1. HTML
     2. CSS / Assets
+6. Tests fonctionnels
+7. Doctrine / Entity
+8. Formulaire
 
 # Création du bundle
 
@@ -173,7 +176,7 @@ défault le rendu va être compilé dans le template `LpTestBundle:Demo:index.ht
 crééer dans notre Bundle `src/Lp/TestBundle/Resources/views/layout.html.twig`.
 
     # src/Lp/TestBundle/Resources/views/index.html.twig
-    {% extends "LpTestBundle:layout.html.twig" %}
+    {% extends "LpTestBundle::layout.html.twig" %}
     
     {% block title %}LpTestBundle:Demo:index{% endblock %}
     
@@ -189,7 +192,7 @@ Faire évoluer le layout en intégrant le [starter template bootstrap](https://g
 les zones dynamiques suivantes (block):
 
 * `{% block title %}` - balise title
-* `{% block stylesheets %}` - import des JS
+* `{% block stylesheets %}` - import des CSS
 * `{% block body %}` - corps balise body
 * `{% block javascripts %}` - import des JS
 
@@ -317,9 +320,331 @@ Avec la class `DemoControllerTest` :
 
 # Doctrine
 
+## Introduction 
+
+Cette librairie intégré dans la version full-stack de Symfony2 est ORM (Object Relationship Management). Un ORM permet 
+de travailler dans le monde Object de PHP avec une Base de donnée. Concrètement, une table en base de donnée sera 
+matérialisé par Doctrine par un Objet mappé que l'on appelle entité.
+
+Afin d'appréhender cette notion, l'objectif est de créer un objet Page contenant les propriétés suivantes :
+
+* Titre de page (pageTitle)
+* Titre de menu (pageMenu)
+* Chapeau (excerpt)
+* Contenu (content)
+
+Afin de connecter l'application via PDO à la base de donnée il faut renseigner les paramètres de connexion dans 
+`app/config/parameters.yml`
+
+## Mise en place
+
+Il faut créer une class Page que l'on va déclarer en tant qu'entité grâce au mapping (dans notre cas on choisi 
+le type de configuration en annotation). Le mapping se fait grâce à l'objet `Doctrine\ORM\Mapping` :
+
+    <?php
+    
+    namespace Lp\TestBundle\Entity;
+    
+    use Doctrine\ORM\Mapping as ORM;
+    
+    /**
+     * Page
+     *
+     * @ORM\Table()
+     * @ORM\Entity # annotation qui permet de déclarer cette object en tant qu'entity
+     */
+    class Page
+    {}
+
+A cette classe, nous allons ajouter des proprités que l'on va mapper :
+
+        /**
+         * @var integer
+         *
+         * @ORM\Column(name="id", type="integer")
+         * @ORM\Id
+         * @ORM\GeneratedValue(strategy="AUTO")
+         */
+        private $id;
+    
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="page_title", type="string", length=255)
+         */
+        private $pageTitle;
+    
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="page_menu", type="string", length=255)
+         */
+        private $pageMenu;
+    
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="excerpt", type="text")
+         */
+        private $excerpt;
+    
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="content", type="text")
+         */
+        private $content;
+        
+        
+Afin d'accéder à ces propriétés défniies il nous faut des setter et des getters qud l'on peut générer grâce à une ligne 
+de commande :
+
+```
+$ app/console doctrine:generate:entities Lp/testBundleEntity/Page
+```
+
+
+        /**
+         * Get id
+         *
+         * @return integer
+         */
+        public function getId()
+        {
+            return $this->id;
+        }
+    
+        /**
+         * Set pageTitle
+         *
+         * @param string $pageTitle
+         *
+         * @return Page
+         */
+        public function setPageTitle($pageTitle)
+        {
+            $this->pageTitle = $pageTitle;
+    
+            return $this;
+        }
+    
+        /**
+         * Get pageTitle
+         *
+         * @return string
+         */
+        public function getPageTitle()
+        {
+            return $this->pageTitle;
+        }
+    
+        /**
+         * Set pageMenu
+         *
+         * @param string $pageMenu
+         *
+         * @return Page
+         */
+        public function setPageMenu($pageMenu)
+        {
+            $this->pageMenu = $pageMenu;
+    
+            return $this;
+        }
+    
+        /**
+         * Get pageMenu
+         *
+         * @return string
+         */
+        public function getPageMenu()
+        {
+            return $this->pageMenu;
+        }
+    
+        /**
+         * Set excerpt
+         *
+         * @param string $excerpt
+         *
+         * @return Page
+         */
+        public function setExcerpt($excerpt)
+        {
+            $this->excerpt = $excerpt;
+    
+            return $this;
+        }
+    
+        /**
+         * Get excerpt
+         *
+         * @return string
+         */
+        public function getExcerpt()
+        {
+            return $this->excerpt;
+        }
+    
+        /**
+         * Set content
+         *
+         * @param string $content
+         *
+         * @return Page
+         */
+        public function setContent($content)
+        {
+            $this->content = $content;
+    
+            return $this;
+        }
+    
+        /**
+         * Get content
+         *
+         * @return string
+         */
+        public function getContent()
+        {
+            return $this->content;
+        }
+        
+
+Biensûr, il existe une commande qui permet de générer cet type de class :
+
+    $ app/console doctrine:generate:entity
+
+Afin de générer un skeleton d'entité, il est demandé de la caractériser :
+
+* Dans quel Bundle (ShortcutBundle:Entity `LpTestBundle:Page`
+* Création des propriétés (champs)
+
+[<span class="btn btn-info">+ informations sur le mapping</span>](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/basic-mapping.html)
+
+## Générer et mettre à jour la base de donnée
+
+On peut créer la base de donnée directement en ligne de commande :
+
+    $ app/console doctrine:database:create
+    
+Quans on crée une nouvelle entité ou qu'on met à jour une entité il faut synchroniser notre base de donnée. Cela s'
+effectue par un simple ligne de commande :
+    
+    $ app/console doctrine:schema:update --force|--dump-sql
+
+## Persister nos objets
+
+Créer une nouvelle classe controller que l'on nomme `PageController`
+
+Dans celle-ci nous créons une action `createAction` :
+
+    // ...
+    use Lp\TestBundle\Entity\Page;
+    use Symfony\Component\HttpFoundation\Response;
+
+    // ...
+    public function createAction()
+    {
+        $page = new Page; # Création d'un nouvel objet Page
+        $page->setPageTitle('Page title #1'); # assignation du titre de page
+        $page->setPageMenu('Page #1'); # assignation ...
+        $page->setExcerpt('Lorem ipsum dolor sit amet, consectetur adipiscing elit[...] '); # assignation ...
+        $page->setContent('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vulputate magna ac mi bibendum, nec varius augue mattis. Vestibulum cursus magna vestibulum, fringilla magna in, lobortis risus. ');
+
+        $em = $this->getDoctrine()->getManager(); # Récupération de l'Entity Manager de Doctrine qui gère tous les process de l'ORM
+    
+        $em->persist($page); # on persiste (management de l'enregistrement)
+        $em->flush(); # on flush => on éxécute les requêtes persistées auparavant
+    
+        return new Response('Created page id '.$page->getId());
+    
+    }
+    
+Créer au moins 5 pages en base de données.
+
+## Récupération des objects
+
+Afin d'effectuer des requêtes simple pour gérer la récupération d'objet :
+
+    public function showAction($id)
+    {
+        $page = $this->getDoctrine()
+            ->getRepository('LpTestBundle:Page') # récupère l'objet qui représente la table page 
+            ->find($id); # méthode "trouve le record ayant l'id
+    
+        if (!$page) {
+            throw $this->createNotFoundException(
+                'No page found for id '.$id
+            );
+        }
+    
+        // on peut passer l'objet $page à notre template par exemple
+        return [
+            'page' => $page
+         ]
+    }
+    
+Afficher les informations de la page ayant l'id `$id`
+
+## Mettre à jour un objet 
+
+    public function updateAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $page = $em->getRepository('LpTestBundle:Page')->find($id);
+    
+        if (!$page) {
+            throw $this->createNotFoundException(
+                'No page found for id '.$id
+            );
+        }
+    
+        $page->setContent('New content!'); # mise à jour de la propriété
+        $em->flush();
+    
+        return $this->redirectToRoute('homepage');
+    }
+    
+## Récupérer plusieurs objets
+ 
+### grâce à une DQL (Doctrine Query Language)
+
+    $em = $this->getDoctrine()->getManager();
+    $query = $em->createQuery(
+        'SELECT p
+        FROM LpTestBundle:Page p
+        ORDER BY p.id DESC'
+    );
+    
+    $pages = $query->getResult();
+    
+### grâce au queryBuilder
+
+    $repository = $this->getDoctrine()
+        ->getRepository('LpTestBundle:Page');
+    
+    // createQueryBuilder automatically selects FROM LpTestBundle:Page
+    // and aliases it to "p"
+    $query = $repository->createQueryBuilder('p')
+        ->orderBy('p.id', 'DESC')
+        ->getQuery();
+    
+    $page = $query->getResult();
+
+----
+
+## Excercice
+
+Il est demandé afin de gérer un menu, de créer une notion de position et de visibilité 
+dans le menu sur l'objet `Page`.
+
+-----
+
 # Form
 
-Faire un test du formulaire
+* Faire un form pour gérer Page
+* Faire un test sur la soumission
 
 
 
