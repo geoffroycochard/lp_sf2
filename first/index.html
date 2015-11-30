@@ -334,7 +334,7 @@ défault le rendu va être compilé dans le template <code>LpTestBundle:Demo:ind
 <code>src/Lp/TestBundle/Resources/views/Demo/index.html.twig</code>. Dans ce template partial on fait appel à un layout que nous avons 
 crééer dans notre Bundle <code>src/Lp/TestBundle/Resources/views/layout.html.twig</code>.</p>
 <pre><code># src/Lp/TestBundle/Resources/views/index.html.twig
-{% extends "LpTestBundle:layout.html.twig" %}
+{% extends "LpTestBundle::layout.html.twig" %}
 
 {% block title %}LpTestBundle:Demo:index{% endblock %}
 
