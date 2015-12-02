@@ -246,7 +246,7 @@ Passer les assets appelés dans le layout en CDN par le bundle `LpTestBundle` en
 **Par exemple**
  
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" /> # Stocké dans app/Resources/public/css/main.css
-    <link rel="stylesheet" href="{{ asset('bundle/lptest/css/main.css') }}" /> # Stocké dans src/Lp/TestBundle/Resources/Public/css/main.css
+    <link rel="stylesheet" href="{{ asset('bundles/lptest/css/main.css') }}" /> # Stocké dans src/Lp/TestBundle/Resources/Public/css/main.css
 
 
 ### Assetic
