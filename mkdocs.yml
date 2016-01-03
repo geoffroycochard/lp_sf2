@@ -5,5 +5,5 @@ extra_css:
 pages:
 - Installation: index.md
 - Premier pas: first.md
-- TP CRM: crm.md
+- TP CMS: cms.md
 - Aide: help.md
