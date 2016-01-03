@@ -80,7 +80,7 @@
                 
                 
                     <li >
-                        <a href="../crm/">TP CRM</a>
+                        <a href="../cms/">TP CMS</a>
                     </li>
                 
                 
@@ -106,7 +106,7 @@
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../crm/">
+                        <a rel="prev" href="../cms/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
@@ -173,10 +173,27 @@
         
             <li><a href="#recuperer-plusieurs-objets">Récupérer plusieurs objets</a></li>
         
-            <li><a href="#excercice">Excercice</a></li>
+    
+        <li class="main "><a href="#gestion-des-formulaires">Gestion des Formulaires</a></li>
+        
+            <li><a href="#simple-form">Simple form</a></li>
+        
+            <li><a href="#gerer-la-soumission">Gérer la soumission</a></li>
+        
+            <li><a href="#formulaire-comme-un-service">Formulaire comme un service</a></li>
+        
+            <li><a href="#lier-a-un-formulaire-a-une-entity">Lier à un formulaire à une entity</a></li>
+        
+            <li><a href="#bonne-pratique">Bonne pratique</a></li>
+        
+            <li><a href="#rendu-templating">Rendu / templating</a></li>
+        
+            <li><a href="#form-theming">Form Theming</a></li>
         
     
-        <li class="main "><a href="#form">Form</a></li>
+        <li class="main "><a href="#validation-des-donnees">Validation des données</a></li>
+        
+            <li><a href="#par-annotation-sur-des-entites">Par annotation sur des entités</a></li>
         
     
     </ul>
@@ -404,7 +421,7 @@ rendre accessible, il faut les publier </p>
 <h2 id="installation">Installation</h2>
 <pre><code>$ wget https://phar.phpunit.de/phpunit.phar # version 5.0 si php &gt; 5.6 sinon phpunit-4.8.9.phar
 $ chmod +x phpunit.phar
-$ sudo mv phpunit.phar ~/bin/phpunit
+$ mv phpunit.phar ~/bin/phpunit
 $ phpunit --version
 </code></pre>
 <p>Les Tests fonctionnels sont là afin tester les différentes couche de votre application du routing jusqu'à la vue :</p>
@@ -734,16 +751,226 @@ $query = $repository-&gt;createQueryBuilder('p')
 
 $page = $query-&gt;getResult();
 </code></pre>
-<hr />
-<h2 id="excercice">Excercice</h2>
-<p>Il est demandé afin de gérer un menu, de créer une notion de position et de visibilité 
-dans le menu sur l'objet <code>Page</code>.</p>
-<hr />
-<h1 id="form">Form</h1>
-<ul>
-<li>Faire un form pour gérer Page</li>
-<li>Faire un test sur la soumission</li>
-</ul></div>
+<h1 id="gestion-des-formulaires">Gestion des Formulaires</h1>
+<h2 id="simple-form">Simple form</h2>
+<p>A partir d'un controller, on peut créer un simple formulaire basé ou non sur sur un objet.</p>
+<pre><code>namespace Lp\TestBundle\Controller;
+
+use Lp\TestBundle\Entity\Page;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
+class PageController extends Controller
+{
+    public function newAction(Request $request)
+    {
+        // create a page and give it some dummy data for this example
+        $page = new Page();
+        $page-&gt;setTitle('Write a blog post');
+        $page-&gt;setContent('Lorem lipsum');
+
+        $form = $this-&gt;createFormBuilder($page) // FormBuilderInterface
+            -&gt;add('title', 'text')
+            -&gt;add('content', 'textarea')
+            -&gt;add('save', 'submit', array('label' =&gt; 'Create Page'))
+            -&gt;getForm();
+
+        return $this-&gt;render('page/new.html.twig', array(
+            'form' =&gt; $form-&gt;createView(), // FormView
+        ));
+    }
+}
+</code></pre>
+<p>Afin d'afficher le rendu, il existe des fonctions twig :</p>
+<pre><code>{# Lp/TestBundle/Resources/views/page/new.html.twig #}
+
+{{ form_start(form) }} # Ouverture du tag &lt;form&gt; avec les attr
+{{ form_widget(form) }} # Tous les champs dispo (widget)
+{{ form_end(form) }} # Fermeture du tag + les hidden + les crsf token
+</code></pre>
+<p>De plus, le system est suffisament intelligent afin de peupler les champs (<code>title</code> = <code>getTitle</code>)</p>
+<h2 id="gerer-la-soumission">Gérer la soumission</h2>
+<pre><code>namespace Lp\TestBundle\Controller;
+
+use Lp\TestBundle\Entity\Page;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
+class PageController extends Controller
+{
+    public function newAction(Request $request)
+    {
+        // create a page and give it some dummy data for this example
+        $page = new Page();
+
+        $form = $this-&gt;createFormBuilder($page) // FormBuilderInterface
+            -&gt;add('title', 'text')
+            -&gt;add('content', 'textarea')
+            -&gt;add('save', 'submit', array('label' =&gt; 'Create Page'))
+            -&gt;getForm();
+
+        $form-&gt;handleRequest($request);
+
+        if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+            // ... perform some action, such as saving the page to the database
+
+            return $this-&gt;redirectToRoute('page_success');
+        }
+
+        return $this-&gt;render('page/new.html.twig', array(
+            'form' =&gt; $form-&gt;createView(), // FormView
+        ));
+    }
+}
+</code></pre>
+<h2 id="formulaire-comme-un-service">Formulaire comme un service</h2>
+<p>Afin de réutiliser ce formulaire dans plusieurs, différentes actions, les bonnes pratiques nous conseille d'isoler 
+la définition de ce formualaire :</p>
+<pre><code>// src/Lp/TestBundle/Form/Type/PageType.php
+namespace LpTestBundle\Form\Type;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class PageType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            -&gt;add('title', 'text')
+            -&gt;add('content', 'textarea')
+            -&gt;add('save', 'submit', array('label' =&gt; 'Create Page'))
+        ;
+    }
+
+    public function getName()
+    {
+        return 'app_page';
+    }
+}
+</code></pre>
+<p>Ensuite d'appeller cette classe dans nos différents controller :</p>
+<pre><code>public function editAction()
+{
+    $form = $this-&gt;createForm(new PageType(), $page);
+}
+</code></pre>
+<p>ou en le définissant en tant que service</p>
+<pre><code># src/Lp/TestBundle/Resources/config/services.yml
+services:
+    app.form.type.page:
+        class: LpTestBundle\Form\Type\PageType
+        tags:
+            - { name: form.type, alias: app_page }
+
+public function editAction()
+{
+    $form = $this-&gt;createForm('app_page', $page);
+}
+</code></pre>
+<h2 id="lier-a-un-formulaire-a-une-entity">Lier à un formulaire à une entity</h2>
+<p>Dans le cas d'une entité lié à un formulaire, il faut le déclarer dans la configuration du formulaire. Cela se révélera 
+trés pratique dans le mapping / hydratation</p>
+<pre><code>use Symfony\Component\OptionsResolver\OptionsResolver;
+
+public function configureOptions(OptionsResolver $resolver)
+{
+    $resolver-&gt;setDefaults(array(
+        'data_class' =&gt; 'LpTestBundle\Entity\Page',
+    ));
+}
+</code></pre>
+<h2 id="bonne-pratique">Bonne pratique</h2>
+<p>Tout comme il est préférable de créer une classe de formulaire afin de réutiliser et de le maintenir, il est conseillé d'
+ isoler le process d'éxécution, que on appellera un Handler</p>
+<p><a href="https://openclassrooms.com/courses/developpez-vos-applications-web-avec-symfony2/vos-premiers-pas-avec-les-formulaires#/id/r-1525418"><span class="btn btn-info">+ informations</span></a></p>
+<h2 id="rendu-templating">Rendu / templating</h2>
+<p>Afin d'effectuer le rendu dans un template avec le moteur twig d'un formulaire il existe un certain nombre d'helper, 
+fourni par le composant Symfony/Form</p>
+<pre><code>{# Lp/TestBundle/Resources/views/page/new.html.twig #}
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+{{ form_end(form) }}
+</code></pre>
+<p><a href="http://symfony.com/doc/current/reference/forms/twig_reference.html"><span class="btn btn-info">+ informations</span></a></p>
+<h2 id="form-theming">Form Theming</h2>
+<p>Chaque élément composant le formulaire (label, input, ligne, etc...) peut-être thématisé en incluant des blocks 
+définissant ces éléments.</p>
+<p>Par exemple afin de thémer un <code>form_row()</code> :</p>
+<pre><code>{% block form_row %}
+{% spaceless %}
+    &lt;div class="form_row"&gt;
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    &lt;/div&gt;
+{% endspaceless %}
+{% endblock form_row %}
+</code></pre>
+<p>Ces blocks de défnition de thème peuvent être importé de manière suivante :</p>
+<p><code>{% form_theme form 'form/fields.html.twig' %}</code></p>
+<p><a href="http://symfony.com/doc/current/book/forms.html#form-theming"><span class="btn btn-info">+ informations</span></a></p>
+<h1 id="validation-des-donnees">Validation des données</h1>
+<p>Il est obligatoire de controller la pertinence des données soumises soit par un formulaire ou soit par une API ou autre 
+canal..</p>
+<p>Il existe un composant Symfony/Validator afin d'ajouter des contraintes à des entités par exemple 
+et un certain nombre de class afin de gérer les processus.</p>
+<h2 id="par-annotation-sur-des-entites">Par annotation sur des entités</h2>
+<p>Pour l'exemple, nous allons partir de l'entité <code>Page</code> a laquelle nous allons ajouter des contraintes en annotation.
+Nous allons rendre obligatoire les données sur <code>pageMenu</code> et <code>pageTitle</code> :</p>
+<pre><code>use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Page
+{
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="page_title", type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private $pageTitle;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="page_menu", type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private $pageMenu;
+
+}
+</code></pre>
+<h3 id="utiliser-le-service-de-validation-dans-une-action">Utiliser le service de validation dans une action</h3>
+<pre><code>// create a page and give it some dummy data for this example
+$page = new Page();
+$page-&gt;setPageTitle('Lorem lipsum 'title);
+$page-&gt;setPageMenu('Lorem lipsum');
+
+$validator = $this-&gt;get('validator');
+$errors = $validator-&gt;validate($page);
+
+if (count($errors) &gt; 0) {
+    /*
+     * Uses a __toString method on the $errors variable which is a
+     * ConstraintViolationList object. This gives us a nice string
+     * for debugging.
+     */
+    $errorsString = (string) $errors;
+
+    return new Response($errorsString);
+}
+
+return new Response('The page is valid! Yes!');
+</code></pre>
+<p>## Utiliser le service afin de valider un formulaire lié à une entité</p></div>
         
     </div>
 
