@@ -3,7 +3,7 @@
 Nous voulons créer une mini app CMS 
 
  - Module de gestion de page
- - Module de gestion d'article
+ - Module de gestion d'article (tags + article)
 
 Il nous faut un frontend dont le menu sera composé des pages en base de donnée, et un accès à la liste des articles.
 

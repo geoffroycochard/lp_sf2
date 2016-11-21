@@ -55,7 +55,6 @@ Cet [utilitaire](https://github.com/symfony/symfony-installer) nous permet d'aut
 ### Qu'obtient-on ?
 
 	app/							# Répertoire des fichiers de application globale
-		cache						# Répertoire d'écriture du cache
 		config						# Répertoire de configuration de application globale
 			configdev.yml			# Configuration environnement dev
 			configprod.yml			# Configuration environnement prod
@@ -67,19 +66,22 @@ Cet [utilitaire](https://github.com/symfony/symfony-installer) nous permet d'aut
 			routing.yml				# Configuration routing
 			security.yml			# Configuration de la sécurité
 			services.yml			# Configuration des services
-		logs						# Dossier des logs
 		Resources					# Ressources application globale (static + templates)
 		AppCache.php				# Paramétrage du cache
 		AppKernel.php				# Kernel loading
 		autoload.php				# 
-		bootstrap.php.cache
-		check.php
+	bin/							# exécutable
 		console						# console pour les CLI
-		phpunit.xml.dist
-		SymfonyRequirements.php
-	bin/							# exécutable tierce partie
+		symfony_requirements
 	src/
 		AppBundle/					# Bundle métier 
+	var/
+		logs						# Dossier des logs
+		cache						# Répertoire d'écriture du cache
+		bootstrap.php.cache
+		check.php
+		phpunit.xml.dist
+		SymfonyRequirements.php
 	vendor/							# Vendor distribution full-stack
 		composer
 		doctrine
@@ -111,7 +113,7 @@ Cet [utilitaire](https://github.com/symfony/symfony-installer) nous permet d'aut
 En mode développement, Symfony2 peut se lancer en s'appuyant sur le [built-in Web Server de php](http://php.net/manual/en/features.commandline.webserver.php) grâce à la commande :
 
 ```
-$ app/console server:run
+$ bin/console server:run
 ```
 [<span class="btn btn-info">+ informations</span>](http://symfony.com/doc/current/book/installation.html#running-the-symfony-application)
 

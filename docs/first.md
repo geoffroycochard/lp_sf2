@@ -23,15 +23,11 @@ Pour cela nous allons utliser une ligne de commande qui va nous permettre de gé
 *Cette commande n'est à effectuer qu'en environnement de developpement*
 
 ```
-$ app/console generate:bundle
+$ bin/console generate:bundle
 ```
 Un certain nombre d'informations seront nécessaires :
 
-1. Namespace
-	1. Vendor / Créateur - `Lp`
-	2. Nom du bundle - `Test`
-	3. Suffixe obligatoire - `Bundle`
-	4. Donc `Lp/TestBundle`
+1. Nom du Bundle Métier`TestBundle`
 2. Choisir le nom - Par convention on utilise la définition du namespace sans slash
 3. Choisir la destination - `src/` car bundle application métier
 4. Format de configuration - Prendre `annotation`
@@ -41,11 +37,11 @@ Un certain nombre d'informations seront nécessaires :
 
 **Que s'est-il passé ?**
 
-Il faut se rendre dans le répertoire `src/Lp/TestBundle` afin de voir que des fichiers ont été généré.
+Il faut se rendre dans le répertoire `src/TestBundle` afin de voir que des fichiers ont été généré.
 
-1. Fichier `LpTestBundle.php` qui est le seul fichier obligatoire afin de charger le bundle dans le Kernel
+1. Fichier `TestBundle.php` qui est le seul fichier obligatoire afin de charger le bundle dans le Kernel
 2. Autochargement dans le `AppKernel`
-3. Enregistrement de la définition de nos routes dans `src/Lp/TestBundle/Resources/config/routing.yml`
+3. Enregistrement de la définition de nos routes dans `src/TestBundle/Resources/config/routing.yml`
 
 # Création d'un controller
 
@@ -65,7 +61,7 @@ le fichier de routing de notre application 'app/config/routing.yml', on constate
 paramétrées dans les class se trouvant dans le dossier `Controller`
 
     lp_test:
-        resource: "@LpTestBundle/Controller/"
+        resource: "@TestBundle/Controller/"
         type:     annotation
         prefix:   /
     
@@ -77,7 +73,7 @@ Donc il suffit de créer la Class ci-dessous dans un fichier nommé `DemoControl
  
     <?php
     
-    namespace Lp\TestBundle\Controller; # déclaration du namespace
+    namespace TestBundle\Controller; # déclaration du namespace
     
     use Symfony\Bundle\FrameworkBundle\Controller\Controller; # import de la Class Controller (héritage)
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; # utiliser pour configuration en annotation
@@ -92,7 +88,7 @@ Et pour créer une action, il suffit d'écrire une méthode annotée dans cette 
 
     /**
      * @Route("/index", name="_index") # route
-     * @Template() # template partial appellé : LpTestBundle:Demo:index.html.twig
+     * @Template() # template partial appellé : TestBundle:Demo:index.html.twig
      */
     public function indexAction()
     {
@@ -103,13 +99,13 @@ Et pour créer une action, il suffit d'écrire une méthode annotée dans cette 
 	
 Il existe une commande afin de générer un controller :
 
-    $ app/console generate:controller
+    $ bin/console generate:controller
 	
 ## Gestion des paramètres en annotation
      
      /**
       * @Route("/index/{param}") # route
-      * @Template() # template partial appellé : LpTestBundle:Demo:index.html.twig
+      * @Template() # template partial appellé : TestBundle:Demo:index.html.twig
       */
      public function indexAction($param)
      {
@@ -156,7 +152,7 @@ injecté le service `twig` à qui appartient cette fonction et renvoie un object
 **En Annotation**
 
      /**
-      * @Template("LpTestBundle:Demo:another.html.twig")
+      * @Template("TestBundle:Demo:another.html.twig")
       */
 
 ## Gestion d'un layout
@@ -165,20 +161,20 @@ Par défault, la création du projet génère un template `app/Ressources/views/
 peut-être étendu grâce à la fonction twig `{% extends ::base.html.twig %}`
 
 On peut aussi stocké un layout dans nos Bundles. Afin de le localiser il faut utiliser le ShortName du Bundle 
-`LpTestBundle:layout.html.twig` faisant référence au fichier se trouvant dans 
-`src/Lp/TestBundle/Ressources/views/layout.html.twig` 
+`TestBundle:layout.html.twig` faisant référence au fichier se trouvant dans 
+`src/TestBundle/Ressources/views/layout.html.twig` 
 
 ## Par exemple
 
-Nous avons via la définition de notre routing attaqué le controller `LpTestBundle:DemoController:indexAction` qui par 
-défault le rendu va être compilé dans le template `LpTestBundle:Demo:index.html.twig` qui est localisé dans 
-`src/Lp/TestBundle/Resources/views/Demo/index.html.twig`. Dans ce template partial on fait appel à un layout que nous avons 
-crééer dans notre Bundle `src/Lp/TestBundle/Resources/views/layout.html.twig`.
+Nous avons via la définition de notre routing attaqué le controller `TestBundle:DemoController:indexAction` qui par 
+défault le rendu va être compilé dans le template `TestBundle:Demo:index.html.twig` qui est localisé dans 
+`src/TestBundle/Resources/views/Demo/index.html.twig`. Dans ce template partial on fait appel à un layout que nous avons 
+crééer dans notre Bundle `src/TestBundle/Resources/views/layout.html.twig`.
 
-    # src/Lp/TestBundle/Resources/views/index.html.twig
-    {% extends "LpTestBundle::layout.html.twig" %}
+    # src/TestBundle/Resources/views/index.html.twig
+    {% extends "TestBundle::layout.html.twig" %}
     
-    {% block title %}LpTestBundle:Demo:index{% endblock %}
+    {% block title %}TestBundle:Demo:index{% endblock %}
     
     {% block body %}
     	<h1>Welcome to the Demo:index page</h1>
@@ -232,21 +228,21 @@ qui prend comme premier argument le nom de la route et en second, un tableau `{}
 L'organisation des fichiers dans un projet symfony2 impose que seul le répertoire `web` est accessible du Web.
 Nos fichiers static doivent y être donc stockés afin de les servir au client.
 
-Ces assets, dépendants de nos bundles, doivent être stockés dans `src/Lp/TestBunble/Resources/public`. Afin de les 
+Ces assets, dépendants de nos bundles, doivent être stockés dans `src/TestBundle/Resources/public`. Afin de les 
 rendre accessible, il faut les publier 
 
 ```
-$ app/console assets:install --symlink
+$ bin/console assets:install --symlink
 ```
 
 L'option `-symlink` permet de faire un lien symbolique.
 
-Passer les assets appelés dans le layout en CDN par le bundle `LpTestBundle` en local.
+Passer les assets appelés dans le layout en CDN par le bundle `TestBundle` en local.
 
 **Par exemple**
  
     <link rel="stylesheet" href="{{ asset('css/main.css') }}" /> # Stocké dans app/Resources/public/css/main.css
-    <link rel="stylesheet" href="{{ asset('bundles/lptest/css/main.css') }}" /> # Stocké dans src/Lp/TestBundle/Resources/Public/css/main.css
+    <link rel="stylesheet" href="{{ asset('bundles/lptest/css/main.css') }}" /> # Stocké dans src/TestBundle/Resources/Public/css/main.css
 
 
 ### Assetic
@@ -282,7 +278,7 @@ résultats afin de faire remonter d'éventuelles erreurs.
 
 Lançons le test `DemoController` :
 
-    phpunit -c app src/Lp/TestBundle/Tests/Controller/DemoControllerTest.php 
+    phpunit -c app src/TestBundle/Tests/Controller/DemoControllerTest.php 
     
 *`-c app` est une option de configuration afin d'aller checher les class de test (fichier / dossier)*
 
@@ -343,7 +339,7 @@ le type de configuration en annotation). Le mapping se fait grâce à l'objet `D
 
     <?php
     
-    namespace Lp\TestBundle\Entity;
+    namespace TestBundle\Entity;
     
     use Doctrine\ORM\Mapping as ORM;
     
@@ -400,7 +396,7 @@ Afin d'accéder à ces propriétés défniies il nous faut des setter et des get
 de commande :
 
 ```
-$ app/console doctrine:generate:entities Lp/testBundleEntity/Page
+$ bin/console doctrine:generate:entities Lp/TestBundleEntity/Page
 ```
 
 
@@ -513,11 +509,11 @@ $ app/console doctrine:generate:entities Lp/testBundleEntity/Page
 
 Biensûr, il existe une commande qui permet de générer cet type de class :
 
-    $ app/console doctrine:generate:entity
+    $ bin/console doctrine:generate:entity
 
 Afin de générer un skeleton d'entité, il est demandé de la caractériser :
 
-* Dans quel Bundle (ShortcutBundle:Entity `LpTestBundle:Page`
+* Dans quel Bundle (ShortcutBundle:Entity `TestBundle:Page`
 * Création des propriétés (champs)
 
 [<span class="btn btn-info">+ informations sur le mapping</span>](http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/basic-mapping.html)
@@ -526,12 +522,12 @@ Afin de générer un skeleton d'entité, il est demandé de la caractériser :
 
 On peut créer la base de donnée directement en ligne de commande :
 
-    $ app/console doctrine:database:create
+    $ bin/console doctrine:database:create
     
 Quans on crée une nouvelle entité ou qu'on met à jour une entité il faut synchroniser notre base de donnée. Cela s'
 effectue par un simple ligne de commande :
     
-    $ app/console doctrine:schema:update --force|--dump-sql
+    $ bin/console doctrine:schema:update --force|--dump-sql
 
 ## Persister nos objets
 
@@ -540,7 +536,7 @@ Créer une nouvelle classe controller que l'on nomme `PageController`
 Dans celle-ci nous créons une action `createAction` :
 
     // ...
-    use Lp\TestBundle\Entity\Page;
+    use TestBundle\Entity\Page;
     use Symfony\Component\HttpFoundation\Response;
 
     // ...
@@ -570,7 +566,7 @@ Afin d'effectuer des requêtes simple pour gérer la récupération d'objet :
     public function showAction($id)
     {
         $page = $this->getDoctrine()
-            ->getRepository('LpTestBundle:Page') # récupère l'objet qui représente la table page 
+            ->getRepository('TestBundle:Page') # récupère l'objet qui représente la table page 
             ->find($id); # méthode "trouve le record ayant l'id
     
         if (!$page) {
@@ -592,7 +588,7 @@ Afficher les informations de la page ayant l'id `$id`
     public function updateAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $page = $em->getRepository('LpTestBundle:Page')->find($id);
+        $page = $em->getRepository('TestBundle:Page')->find($id);
     
         if (!$page) {
             throw $this->createNotFoundException(
@@ -613,7 +609,7 @@ Afficher les informations de la page ayant l'id `$id`
     $em = $this->getDoctrine()->getManager();
     $query = $em->createQuery(
         'SELECT p
-        FROM LpTestBundle:Page p
+        FROM TestBundle:Page p
         ORDER BY p.id DESC'
     );
     
@@ -622,9 +618,9 @@ Afficher les informations de la page ayant l'id `$id`
 ### grâce au queryBuilder
 
     $repository = $this->getDoctrine()
-        ->getRepository('LpTestBundle:Page');
+        ->getRepository('TestBundle:Page');
     
-    // createQueryBuilder automatically selects FROM LpTestBundle:Page
+    // createQueryBuilder automatically selects FROM TestBundle:Page
     // and aliases it to "p"
     $query = $repository->createQueryBuilder('p')
         ->orderBy('p.id', 'DESC')
@@ -641,7 +637,7 @@ A partir d'un controller, on peut créer un simple formulaire basé ou non sur s
 
     namespace Lp\TestBundle\Controller;
 
-    use Lp\TestBundle\Entity\Page;
+    use TestBundle\Entity\Page;
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Request;
     
@@ -680,9 +676,12 @@ De plus, le system est suffisament intelligent afin de peupler les champs (`titl
 
     namespace Lp\TestBundle\Controller;
 
-    use Lp\TestBundle\Entity\Page;
+    use TestBundle\Entity\Page;
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\Form\Extension\Core\Type\TextType;
+    use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+    use Symfony\Component\Form\Extension\Core\Type\SubmitType;
     
     class PageController extends Controller
     {
@@ -692,9 +691,9 @@ De plus, le system est suffisament intelligent afin de peupler les champs (`titl
             $page = new Page();
     
             $form = $this->createFormBuilder($page) // FormBuilderInterface
-                ->add('title', 'text')
-                ->add('content', 'textarea')
-                ->add('save', 'submit', array('label' => 'Create Page'))
+                ->add('title', 'TextType::class)
+                ->add('content', TextareaType::class)
+                ->add('save', SubmitType::class, array('label' => 'Create Page'))
                 ->getForm();
             
             $form->handleRequest($request);
@@ -716,20 +715,23 @@ De plus, le system est suffisament intelligent afin de peupler les champs (`titl
 Afin de réutiliser ce formulaire dans plusieurs, différentes actions, les bonnes pratiques nous conseille d'isoler 
 la définition de ce formualaire :
 
-    // src/Lp/TestBundle/Form/Type/PageType.php
-    namespace LpTestBundle\Form\Type;
+    // src/TestBundle/Form/Type/PageType.php
+    namespace TestBundle\Form\Type;
     
     use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\FormBuilderInterface;
+    use Symfony\Component\Form\Extension\Core\Type\TextType;
+    use Symfony\Component\Form\Extension\Core\Type\DateType;
+    use Symfony\Component\Form\Extension\Core\Type\SubmitType;
     
     class PageType extends AbstractType
     {
         public function buildForm(FormBuilderInterface $builder, array $options)
         {
             $builder
-                ->add('title', 'text')
-                ->add('content', 'textarea')
-                ->add('save', 'submit', array('label' => 'Create Page'))
+                ->add('title', 'TextType::class)
+                ->add('content', TextareaType::class)
+                ->add('save', SubmitType::class, array('label' => 'Create Page'))
             ;
         }
     
@@ -748,10 +750,10 @@ Ensuite d'appeller cette classe dans nos différents controller :
     
 ou en le définissant en tant que service
     
-    # src/Lp/TestBundle/Resources/config/services.yml
+    # src/TestBundle/Resources/config/services.yml
     services:
         app.form.type.page:
-            class: LpTestBundle\Form\Type\PageType
+            class: TestBundle\Form\Type\PageType
             tags:
                 - { name: form.type, alias: app_page }
                 
@@ -770,7 +772,7 @@ trés pratique dans le mapping / hydratation
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LpTestBundle\Entity\Page',
+            'data_class' => 'TestBundle\Entity\Page',
         ));
     }
 
