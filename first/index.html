@@ -478,7 +478,7 @@ matérialisé par Doctrine par un Objet mappé que l'on appelle entité.</p>
 le type de configuration en annotation). Le mapping se fait grâce à l'objet <code>Doctrine\ORM\Mapping</code> :</p>
 <pre><code>&lt;?php
 
-namespace Lp\TestBundle\Entity;
+namespace TestBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -531,7 +531,7 @@ class Page
 </code></pre>
 <p>Afin d'accéder à ces propriétés défniies il nous faut des setter et des getters qud l'on peut générer grâce à une ligne 
 de commande :</p>
-<pre><code>$ bin/console doctrine:generate:entities Lp/testBundleEntity/Page
+<pre><code>$ bin/console doctrine:generate:entities Lp/TestBundleEntity/Page
 </code></pre>
 
 <pre><code>    /**
@@ -661,7 +661,7 @@ effectue par un simple ligne de commande :</p>
 <p>Créer une nouvelle classe controller que l'on nomme <code>PageController</code></p>
 <p>Dans celle-ci nous créons une action <code>createAction</code> :</p>
 <pre><code>// ...
-use Lp\TestBundle\Entity\Page;
+use TestBundle\Entity\Page;
 use Symfony\Component\HttpFoundation\Response;
 
 // ...
@@ -750,7 +750,7 @@ $page = $query-&gt;getResult();
 <p>A partir d'un controller, on peut créer un simple formulaire basé ou non sur sur un objet.</p>
 <pre><code>namespace Lp\TestBundle\Controller;
 
-use Lp\TestBundle\Entity\Page;
+use TestBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -786,7 +786,7 @@ class PageController extends Controller
 <h2 id="gerer-la-soumission">Gérer la soumission</h2>
 <pre><code>namespace Lp\TestBundle\Controller;
 
-use Lp\TestBundle\Entity\Page;
+use TestBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
