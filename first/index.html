@@ -789,6 +789,9 @@ class PageController extends Controller
 use TestBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PageController extends Controller
 {
@@ -798,9 +801,9 @@ class PageController extends Controller
         $page = new Page();
 
         $form = $this-&gt;createFormBuilder($page) // FormBuilderInterface
-            -&gt;add('title', 'text')
-            -&gt;add('content', 'textarea')
-            -&gt;add('save', 'submit', array('label' =&gt; 'Create Page'))
+            -&gt;add('title', 'TextType::class)
+            -&gt;add('content', TextareaType::class)
+            -&gt;add('save', SubmitType::class, array('label' =&gt; 'Create Page'))
             -&gt;getForm();
 
         $form-&gt;handleRequest($request);
@@ -825,15 +828,18 @@ namespace TestBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            -&gt;add('title', 'text')
-            -&gt;add('content', 'textarea')
-            -&gt;add('save', 'submit', array('label' =&gt; 'Create Page'))
+            -&gt;add('title', 'TextType::class)
+            -&gt;add('content', TextareaType::class)
+            -&gt;add('save', SubmitType::class, array('label' =&gt; 'Create Page'))
         ;
     }
 
