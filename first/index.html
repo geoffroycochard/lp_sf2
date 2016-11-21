@@ -221,7 +221,7 @@ Symfony2.</p>
 <h1 id="creation-du-bundle">Création du bundle</h1>
 <p>Pour cela nous allons utliser une ligne de commande qui va nous permettre de générer un skeleton de Bundle.</p>
 <p><em>Cette commande n'est à effectuer qu'en environnement de developpement</em></p>
-<pre><code>$ app/console generate:bundle
+<pre><code>$ bin/console generate:bundle
 </code></pre>
 
 <p>Un certain nombre d'informations seront nécessaires :</p>
@@ -294,7 +294,7 @@ public function indexAction()
 }
 </code></pre>
 <p>Il existe une commande afin de générer un controller :</p>
-<pre><code>$ app/console generate:controller
+<pre><code>$ bin/console generate:controller
 </code></pre>
 <h2 id="gestion-des-parametres-en-annotation">Gestion des paramètres en annotation</h2>
 <pre><code> /**
@@ -399,7 +399,7 @@ qui prend comme premier argument le nom de la route et en second, un tableau <co
 Nos fichiers static doivent y être donc stockés afin de les servir au client.</p>
 <p>Ces assets, dépendants de nos bundles, doivent être stockés dans <code>src/Lp/TestBunble/Resources/public</code>. Afin de les 
 rendre accessible, il faut les publier </p>
-<pre><code>$ app/console assets:install --symlink
+<pre><code>$ bin/console assets:install --symlink
 </code></pre>
 
 <p>L'option <code>-symlink</code> permet de faire un lien symbolique.</p>
@@ -537,7 +537,7 @@ class Page
 </code></pre>
 <p>Afin d'accéder à ces propriétés défniies il nous faut des setter et des getters qud l'on peut générer grâce à une ligne 
 de commande :</p>
-<pre><code>$ app/console doctrine:generate:entities Lp/testBundleEntity/Page
+<pre><code>$ bin/console doctrine:generate:entities Lp/testBundleEntity/Page
 </code></pre>
 
 <pre><code>    /**
@@ -647,7 +647,7 @@ de commande :</p>
     }
 </code></pre>
 <p>Biensûr, il existe une commande qui permet de générer cet type de class :</p>
-<pre><code>$ app/console doctrine:generate:entity
+<pre><code>$ bin/console doctrine:generate:entity
 </code></pre>
 <p>Afin de générer un skeleton d'entité, il est demandé de la caractériser :</p>
 <ul>
@@ -657,11 +657,11 @@ de commande :</p>
 <p><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/basic-mapping.html"><span class="btn btn-info">+ informations sur le mapping</span></a></p>
 <h2 id="generer-et-mettre-a-jour-la-base-de-donnee">Générer et mettre à jour la base de donnée</h2>
 <p>On peut créer la base de donnée directement en ligne de commande :</p>
-<pre><code>$ app/console doctrine:database:create
+<pre><code>$ bin/console doctrine:database:create
 </code></pre>
 <p>Quans on crée une nouvelle entité ou qu'on met à jour une entité il faut synchroniser notre base de donnée. Cela s'
 effectue par un simple ligne de commande :</p>
-<pre><code>$ app/console doctrine:schema:update --force|--dump-sql
+<pre><code>$ bin/console doctrine:schema:update --force|--dump-sql
 </code></pre>
 <h2 id="persister-nos-objets">Persister nos objets</h2>
 <p>Créer une nouvelle classe controller que l'on nomme <code>PageController</code></p>

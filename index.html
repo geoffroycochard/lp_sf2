@@ -179,7 +179,6 @@ Symfony2.</p>
 <p><img alt="Screenshot" src="./img/installer.gif" /></p>
 <h3 id="quobtient-on">Qu'obtient-on ?</h3>
 <pre><code>app/                            # Répertoire des fichiers de application globale
-    cache                       # Répertoire d'écriture du cache
     config                      # Répertoire de configuration de application globale
         configdev.yml           # Configuration environnement dev
         configprod.yml          # Configuration environnement prod
@@ -191,19 +190,22 @@ Symfony2.</p>
         routing.yml             # Configuration routing
         security.yml            # Configuration de la sécurité
         services.yml            # Configuration des services
-    logs                        # Dossier des logs
     Resources                   # Ressources application globale (static + templates)
     AppCache.php                # Paramétrage du cache
     AppKernel.php               # Kernel loading
     autoload.php                # 
-    bootstrap.php.cache
-    check.php
+bin/                            # exécutable
     console                     # console pour les CLI
-    phpunit.xml.dist
-    SymfonyRequirements.php
-bin/                            # exécutable tierce partie
+    symfony_requirements
 src/
     AppBundle/                  # Bundle métier 
+var/
+    logs                        # Dossier des logs
+    cache                       # Répertoire d'écriture du cache
+    bootstrap.php.cache
+    check.php
+    phpunit.xml.dist
+    SymfonyRequirements.php
 vendor/                         # Vendor distribution full-stack
     composer
     doctrine
@@ -304,5 +306,5 @@ README.md
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2016-11-21 20:38:17.268924
+Build Date UTC : 2016-11-21 20:44:42.879526
 -->
