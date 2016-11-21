@@ -226,13 +226,7 @@ Symfony2.</p>
 
 <p>Un certain nombre d'informations seront nécessaires :</p>
 <ol>
-<li>Namespace<ol>
-<li>Vendor / Créateur - <code>Lp</code></li>
-<li>Nom du bundle - <code>Test</code></li>
-<li>Suffixe obligatoire - <code>Bundle</code></li>
-<li>Donc <code>Lp/TestBundle</code></li>
-</ol>
-</li>
+<li>Nom du Bundle Métier<code>TestBundle</code></li>
 <li>Choisir le nom - Par convention on utilise la définition du namespace sans slash</li>
 <li>Choisir la destination - <code>src/</code> car bundle application métier</li>
 <li>Format de configuration - Prendre <code>annotation</code></li>
@@ -240,11 +234,11 @@ Symfony2.</p>
 <li>Confirmation</li>
 </ol>
 <p><strong>Que s'est-il passé ?</strong></p>
-<p>Il faut se rendre dans le répertoire <code>src/Lp/TestBundle</code> afin de voir que des fichiers ont été généré.</p>
+<p>Il faut se rendre dans le répertoire <code>src/TestBundle</code> afin de voir que des fichiers ont été généré.</p>
 <ol>
-<li>Fichier <code>LpTestBundle.php</code> qui est le seul fichier obligatoire afin de charger le bundle dans le Kernel</li>
+<li>Fichier <code>TestBundle.php</code> qui est le seul fichier obligatoire afin de charger le bundle dans le Kernel</li>
 <li>Autochargement dans le <code>AppKernel</code></li>
-<li>Enregistrement de la définition de nos routes dans <code>src/Lp/TestBundle/Resources/config/routing.yml</code></li>
+<li>Enregistrement de la définition de nos routes dans <code>src/TestBundle/Resources/config/routing.yml</code></li>
 </ol>
 <h1 id="creation-dun-controller">Création d'un controller</h1>
 <p>Dans un controller nommé <code>DemoController</code>, il nous faut différentes actions :</p>
@@ -259,7 +253,7 @@ Symfony2.</p>
 le fichier de routing de notre application 'app/config/routing.yml', on constate que nous chargeons toutes les actions
 paramétrées dans les class se trouvant dans le dossier <code>Controller</code></p>
 <pre><code>lp_test:
-    resource: "@LpTestBundle/Controller/"
+    resource: "@TestBundle/Controller/"
     type:     annotation
     prefix:   /
 
@@ -270,7 +264,7 @@ app:
 <p>Donc il suffit de créer la Class ci-dessous dans un fichier nommé <code>DemoController.php</code>(nommage autoload PSR-4) :</p>
 <pre><code>&lt;?php
 
-namespace Lp\TestBundle\Controller; # déclaration du namespace
+namespace TestBundle\Controller; # déclaration du namespace
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller; # import de la Class Controller (héritage)
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; # utiliser pour configuration en annotation
@@ -284,7 +278,7 @@ class DemoController extends Controller
 <p>Et pour créer une action, il suffit d'écrire une méthode annotée dans cette classe </p>
 <pre><code>/**
  * @Route("/index", name="_index") # route
- * @Template() # template partial appellé : LpTestBundle:Demo:index.html.twig
+ * @Template() # template partial appellé : TestBundle:Demo:index.html.twig
  */
 public function indexAction()
 {
@@ -299,7 +293,7 @@ public function indexAction()
 <h2 id="gestion-des-parametres-en-annotation">Gestion des paramètres en annotation</h2>
 <pre><code> /**
   * @Route("/index/{param}") # route
-  * @Template() # template partial appellé : LpTestBundle:Demo:index.html.twig
+  * @Template() # template partial appellé : TestBundle:Demo:index.html.twig
   */
  public function indexAction($param)
  {
@@ -336,24 +330,24 @@ return $this-&gt;render('hello/greetings/index.html.twig', array(
 </code></pre>
 <p><strong>En Annotation</strong></p>
 <pre><code> /**
-  * @Template("LpTestBundle:Demo:another.html.twig")
+  * @Template("TestBundle:Demo:another.html.twig")
   */
 </code></pre>
 <h2 id="gestion-dun-layout">Gestion d'un layout</h2>
 <p>Par défault, la création du projet génère un template <code>app/Ressources/views/base.html.twig</code> (block mappés) et celui-ci 
 peut-être étendu grâce à la fonction twig <code>{% extends ::base.html.twig %}</code></p>
 <p>On peut aussi stocké un layout dans nos Bundles. Afin de le localiser il faut utiliser le ShortName du Bundle 
-<code>LpTestBundle:layout.html.twig</code> faisant référence au fichier se trouvant dans 
-<code>src/Lp/TestBundle/Ressources/views/layout.html.twig</code> </p>
+<code>TestBundle:layout.html.twig</code> faisant référence au fichier se trouvant dans 
+<code>src/TestBundle/Ressources/views/layout.html.twig</code> </p>
 <h2 id="par-exemple">Par exemple</h2>
-<p>Nous avons via la définition de notre routing attaqué le controller <code>LpTestBundle:DemoController:indexAction</code> qui par 
-défault le rendu va être compilé dans le template <code>LpTestBundle:Demo:index.html.twig</code> qui est localisé dans 
-<code>src/Lp/TestBundle/Resources/views/Demo/index.html.twig</code>. Dans ce template partial on fait appel à un layout que nous avons 
-crééer dans notre Bundle <code>src/Lp/TestBundle/Resources/views/layout.html.twig</code>.</p>
-<pre><code># src/Lp/TestBundle/Resources/views/index.html.twig
-{% extends "LpTestBundle::layout.html.twig" %}
+<p>Nous avons via la définition de notre routing attaqué le controller <code>TestBundle:DemoController:indexAction</code> qui par 
+défault le rendu va être compilé dans le template <code>TestBundle:Demo:index.html.twig</code> qui est localisé dans 
+<code>src/TestBundle/Resources/views/Demo/index.html.twig</code>. Dans ce template partial on fait appel à un layout que nous avons 
+crééer dans notre Bundle <code>src/TestBundle/Resources/views/layout.html.twig</code>.</p>
+<pre><code># src/TestBundle/Resources/views/index.html.twig
+{% extends "TestBundle::layout.html.twig" %}
 
-{% block title %}LpTestBundle:Demo:index{% endblock %}
+{% block title %}TestBundle:Demo:index{% endblock %}
 
 {% block body %}
     &lt;h1&gt;Welcome to the Demo:index page&lt;/h1&gt;
@@ -397,16 +391,16 @@ qui prend comme premier argument le nom de la route et en second, un tableau <co
 <h2 id="web-assets">Web Assets</h2>
 <p>L'organisation des fichiers dans un projet symfony2 impose que seul le répertoire <code>web</code> est accessible du Web.
 Nos fichiers static doivent y être donc stockés afin de les servir au client.</p>
-<p>Ces assets, dépendants de nos bundles, doivent être stockés dans <code>src/Lp/TestBunble/Resources/public</code>. Afin de les 
+<p>Ces assets, dépendants de nos bundles, doivent être stockés dans <code>src/TestBundle/Resources/public</code>. Afin de les 
 rendre accessible, il faut les publier </p>
 <pre><code>$ bin/console assets:install --symlink
 </code></pre>
 
 <p>L'option <code>-symlink</code> permet de faire un lien symbolique.</p>
-<p>Passer les assets appelés dans le layout en CDN par le bundle <code>LpTestBundle</code> en local.</p>
+<p>Passer les assets appelés dans le layout en CDN par le bundle <code>TestBundle</code> en local.</p>
 <p><strong>Par exemple</strong></p>
 <pre><code>&lt;link rel="stylesheet" href="{{ asset('css/main.css') }}" /&gt; # Stocké dans app/Resources/public/css/main.css
-&lt;link rel="stylesheet" href="{{ asset('bundles/lptest/css/main.css') }}" /&gt; # Stocké dans src/Lp/TestBundle/Resources/Public/css/main.css
+&lt;link rel="stylesheet" href="{{ asset('bundles/lptest/css/main.css') }}" /&gt; # Stocké dans src/TestBundle/Resources/Public/css/main.css
 </code></pre>
 <h3 id="assetic">Assetic</h3>
 <p>Assetic se basant sur Asset est un Bundle Symfony Framework afin de gérer les fichiers static en les filtrants, comme :</p>
@@ -433,7 +427,7 @@ $ phpunit --version
 résultats afin de faire remonter d'éventuelles erreurs.</p>
 <h2 id="ecrire-un-test">Ecrire un test</h2>
 <p>Lançons le test <code>DemoController</code> :</p>
-<pre><code>phpunit -c app src/Lp/TestBundle/Tests/Controller/DemoControllerTest.php
+<pre><code>phpunit -c app src/TestBundle/Tests/Controller/DemoControllerTest.php
 </code></pre>
 <p><em><code>-c app</code> est une option de configuration afin d'aller checher les class de test (fichier / dossier)</em></p>
 <p>Avec la class <code>DemoControllerTest</code> :</p>
@@ -651,7 +645,7 @@ de commande :</p>
 </code></pre>
 <p>Afin de générer un skeleton d'entité, il est demandé de la caractériser :</p>
 <ul>
-<li>Dans quel Bundle (ShortcutBundle:Entity <code>LpTestBundle:Page</code></li>
+<li>Dans quel Bundle (ShortcutBundle:Entity <code>TestBundle:Page</code></li>
 <li>Création des propriétés (champs)</li>
 </ul>
 <p><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/basic-mapping.html"><span class="btn btn-info">+ informations sur le mapping</span></a></p>
@@ -694,7 +688,7 @@ public function createAction()
 <pre><code>public function showAction($id)
 {
     $page = $this-&gt;getDoctrine()
-        -&gt;getRepository('LpTestBundle:Page') # récupère l'objet qui représente la table page 
+        -&gt;getRepository('TestBundle:Page') # récupère l'objet qui représente la table page 
         -&gt;find($id); # méthode "trouve le record ayant l'id
 
     if (!$page) {
@@ -714,7 +708,7 @@ public function createAction()
 <pre><code>public function updateAction($id)
 {
     $em = $this-&gt;getDoctrine()-&gt;getManager();
-    $page = $em-&gt;getRepository('LpTestBundle:Page')-&gt;find($id);
+    $page = $em-&gt;getRepository('TestBundle:Page')-&gt;find($id);
 
     if (!$page) {
         throw $this-&gt;createNotFoundException(
@@ -733,7 +727,7 @@ public function createAction()
 <pre><code>$em = $this-&gt;getDoctrine()-&gt;getManager();
 $query = $em-&gt;createQuery(
     'SELECT p
-    FROM LpTestBundle:Page p
+    FROM TestBundle:Page p
     ORDER BY p.id DESC'
 );
 
@@ -741,9 +735,9 @@ $pages = $query-&gt;getResult();
 </code></pre>
 <h3 id="grace-au-querybuilder">grâce au queryBuilder</h3>
 <pre><code>$repository = $this-&gt;getDoctrine()
-    -&gt;getRepository('LpTestBundle:Page');
+    -&gt;getRepository('TestBundle:Page');
 
-// createQueryBuilder automatically selects FROM LpTestBundle:Page
+// createQueryBuilder automatically selects FROM TestBundle:Page
 // and aliases it to "p"
 $query = $repository-&gt;createQueryBuilder('p')
     -&gt;orderBy('p.id', 'DESC')
@@ -826,8 +820,8 @@ class PageController extends Controller
 <h2 id="formulaire-comme-un-service">Formulaire comme un service</h2>
 <p>Afin de réutiliser ce formulaire dans plusieurs, différentes actions, les bonnes pratiques nous conseille d'isoler 
 la définition de ce formualaire :</p>
-<pre><code>// src/Lp/TestBundle/Form/Type/PageType.php
-namespace LpTestBundle\Form\Type;
+<pre><code>// src/TestBundle/Form/Type/PageType.php
+namespace TestBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -856,10 +850,10 @@ class PageType extends AbstractType
 }
 </code></pre>
 <p>ou en le définissant en tant que service</p>
-<pre><code># src/Lp/TestBundle/Resources/config/services.yml
+<pre><code># src/TestBundle/Resources/config/services.yml
 services:
     app.form.type.page:
-        class: LpTestBundle\Form\Type\PageType
+        class: TestBundle\Form\Type\PageType
         tags:
             - { name: form.type, alias: app_page }
 
@@ -876,7 +870,7 @@ trés pratique dans le mapping / hydratation</p>
 public function configureOptions(OptionsResolver $resolver)
 {
     $resolver-&gt;setDefaults(array(
-        'data_class' =&gt; 'LpTestBundle\Entity\Page',
+        'data_class' =&gt; 'TestBundle\Entity\Page',
     ));
 }
 </code></pre>
