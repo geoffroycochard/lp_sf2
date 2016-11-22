@@ -238,7 +238,7 @@ Symfony2.</p>
 <ol>
 <li>Fichier <code>TestBundle.php</code> qui est le seul fichier obligatoire afin de charger le bundle dans le Kernel</li>
 <li>Autochargement dans le <code>AppKernel</code></li>
-<li>Enregistrement de la définition de nos routes dans <code>src/TestBundle/Resources/config/routing.yml</code></li>
+<li>Enregistrement de la définition de nos routes dans <code>src/TestBundle/Controller/*</code> en annotation</li>
 </ol>
 <h1 id="creation-dun-controller">Création d'un controller</h1>
 <p>Dans un controller nommé <code>DemoController</code>, il nous faut différentes actions :</p>
@@ -753,6 +753,9 @@ $page = $query-&gt;getResult();
 use TestBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PageController extends Controller
 {
@@ -764,9 +767,9 @@ class PageController extends Controller
         $page-&gt;setContent('Lorem lipsum');
 
         $form = $this-&gt;createFormBuilder($page) // FormBuilderInterface
-            -&gt;add('title', 'text')
-            -&gt;add('content', 'textarea')
-            -&gt;add('save', 'submit', array('label' =&gt; 'Create Page'))
+            -&gt;add('title', TextType::class)
+            -&gt;add('content', TextareaType::class)
+            -&gt;add('save', SubmitType::class, array('label' =&gt; 'Create Page'))
             -&gt;getForm();
 
         return $this-&gt;render('page/new.html.twig', array(
@@ -801,7 +804,7 @@ class PageController extends Controller
         $page = new Page();
 
         $form = $this-&gt;createFormBuilder($page) // FormBuilderInterface
-            -&gt;add('title', 'TextType::class)
+            -&gt;add('title', TextType::class)
             -&gt;add('content', TextareaType::class)
             -&gt;add('save', SubmitType::class, array('label' =&gt; 'Create Page'))
             -&gt;getForm();
