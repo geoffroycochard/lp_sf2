@@ -41,7 +41,7 @@ Il faut se rendre dans le répertoire `src/TestBundle` afin de voir que des fich
 
 1. Fichier `TestBundle.php` qui est le seul fichier obligatoire afin de charger le bundle dans le Kernel
 2. Autochargement dans le `AppKernel`
-3. Enregistrement de la définition de nos routes dans `src/TestBundle/Resources/config/routing.yml`
+3. Enregistrement de la définition de nos routes dans `src/TestBundle/Controller/*` en annotation
 
 # Création d'un controller
 
@@ -278,10 +278,8 @@ résultats afin de faire remonter d'éventuelles erreurs.
 
 Lançons le test `DemoController` :
 
-    phpunit -c app src/TestBundle/Tests/Controller/DemoControllerTest.php 
+    phpunit src/TestBundle/Tests/Controller/DemoControllerTest.php 
     
-*`-c app` est une option de configuration afin d'aller checher les class de test (fichier / dossier)*
-
 Avec la class `DemoControllerTest` :
 
     <?php
@@ -306,6 +304,11 @@ Avec la class `DemoControllerTest` :
             $crawler = $client->request('GET', '/whats-my-name/geoffroy');
             
             $this->assertTrue(200 === $client->getResponse()->getStatusCode()); # second argument peut-être un message
+            $this->assertGreaterThan(
+                  0,
+                  $crawler->filter('html:contains("geoffroy")')->count(),
+                  'Ne retrouve pas le mot geoffroy dans la réponse...'
+            );
         }
     
     }
@@ -640,6 +643,9 @@ A partir d'un controller, on peut créer un simple formulaire basé ou non sur s
     use TestBundle\Entity\Page;
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\Form\Extension\Core\Type\TextType;
+    use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+    use Symfony\Component\Form\Extension\Core\Type\SubmitType;
     
     class PageController extends Controller
     {
@@ -651,9 +657,9 @@ A partir d'un controller, on peut créer un simple formulaire basé ou non sur s
             $page->setContent('Lorem lipsum');
     
             $form = $this->createFormBuilder($page) // FormBuilderInterface
-                ->add('title', 'text')
-                ->add('content', 'textarea')
-                ->add('save', 'submit', array('label' => 'Create Page'))
+                ->add('title', TextType::class)
+                ->add('content', TextareaType::class)
+                ->add('save', SubmitType::class, array('label' => 'Create Page'))
                 ->getForm();
     
             return $this->render('page/new.html.twig', array(
@@ -691,7 +697,7 @@ De plus, le system est suffisament intelligent afin de peupler les champs (`titl
             $page = new Page();
     
             $form = $this->createFormBuilder($page) // FormBuilderInterface
-                ->add('title', 'TextType::class)
+                ->add('title', TextType::class)
                 ->add('content', TextareaType::class)
                 ->add('save', SubmitType::class, array('label' => 'Create Page'))
                 ->getForm();

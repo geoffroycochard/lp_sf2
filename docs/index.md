@@ -1,6 +1,6 @@
 # Introduction
 
-Ces premiers TD vont nous permettre d'appréhender le [Framework PHP Symfony 2](https://symfony.com/).
+Ces premiers TD vont nous permettre d'appréhender le [Framework PHP Symfony](https://symfony.com/).
 
 Un framework est un cadre de travail de développement basé sur un certain de nombre [composant](https://symfony.com/components)
 
@@ -110,7 +110,7 @@ Cet [utilitaire](https://github.com/symfony/symfony-installer) nous permet d'aut
 
 **Lancer l'application**
 
-En mode développement, Symfony2 peut se lancer en s'appuyant sur le [built-in Web Server de php](http://php.net/manual/en/features.commandline.webserver.php) grâce à la commande :
+En mode développement, Symfony peut se lancer en s'appuyant sur le [built-in Web Server de php](http://php.net/manual/en/features.commandline.webserver.php) grâce à la commande :
 
 ```
 $ bin/console server:run
